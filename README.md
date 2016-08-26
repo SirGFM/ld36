@@ -1,4 +1,4 @@
-# GFraMe game template
+# LD #36
 
-Template for games built with libGFraMe.
+Template cloned from https://github.com/SirGFM/GFraMe_game_template
 
