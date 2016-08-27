@@ -14,6 +14,8 @@
 #include <GFraMe/gfmError.h>
 #include <GFraMe/gframe.h>
 
+#include <ld36/playground.h>
+
 /** Required by malloc() and free() */
 #include <stdlib.h>
 /** Required by memset() */
@@ -33,8 +35,10 @@ gfmRV main_loop() {
         if (pGame->nextState != 0) {
             /* TODO Init the current state, if switching */
             switch (pGame->nextState) {
-                default: ASSERT(0, GFMRV_INTERNAL_ERROR);
+                case ST_PLAYGROUND: rv = playground_init(); break;
+                default: rv = GFMRV_INTERNAL_ERROR;
             }
+            ASSERT(rv == GFMRV_OK, rv);
 
             pGame->curState = pGame->nextState;
             pGame->nextState = ST_NONE;
@@ -84,7 +88,8 @@ gfmRV main_loop() {
 
             /* TODO Update the current state */
             switch (pGame->curState) {
-                default: ASSERT(0, GFMRV_INTERNAL_ERROR);
+                case ST_PLAYGROUND: rv = playground_update(); break;
+                default: rv = GFMRV_INTERNAL_ERROR;
             }
             ASSERT(rv == GFMRV_OK, rv);
 
@@ -101,7 +106,8 @@ gfmRV main_loop() {
 
             /* TODO Render the current state */
             switch (pGame->curState) {
-                default: ASSERT(0, GFMRV_INTERNAL_ERROR);
+                case ST_PLAYGROUND: rv = playground_draw(); break;
+                default: rv = GFMRV_INTERNAL_ERROR;
             }
             ASSERT(rv == GFMRV_OK, rv);
 
@@ -119,6 +125,7 @@ gfmRV main_loop() {
         if (pGame->nextState != ST_NONE) {
             /* TODO Clear the current state, if switching */
             switch (pGame->curState) {
+                case ST_PLAYGROUND: playground_clean(); break;
                 default: ASSERT(0, GFMRV_INTERNAL_ERROR);
             }
 
@@ -226,8 +233,8 @@ int main(int argc, char *argv[]) {
     rv = gfm_setStateFrameRate(pGame->pCtx, pConfig->fps, pConfig->fps);
     ASSERT(rv == GFMRV_OK, rv);
 
-    /* Set the initial state */
-    pGame->nextState = ST_NONE;
+    /* TODO Set the initial state */
+    pGame->nextState = ST_PLAYGROUND;
 #if defined(DEBUG)
     /* Set debug mode to running instead of stepping */
     pGame->flags |= GAME_RUN;

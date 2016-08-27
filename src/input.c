@@ -134,6 +134,12 @@ gfmRV input_init() {
     ADD_KEY(dbgPause);
     ADD_KEY(dbgStep);
 #endif
+    ADD_KEY(fullscreen);
+    ADD_KEY(left);
+    ADD_KEY(right);
+    ADD_KEY(up);
+    ADD_KEY(down);
+    ADD_KEY(spawn);
     /* TODO Add other keys */
 
 #undef ADD_KEY
@@ -152,6 +158,11 @@ gfmRV input_init() {
     BIND_KEY(dbgPause, gfmKey_f5);
     BIND_KEY(dbgStep, gfmKey_f6);
 #endif
+    BIND_KEY(spawn, gfmPointer_button);
+    BIND_KEY(up, gfmKey_w);
+    BIND_KEY(left, gfmKey_a);
+    BIND_KEY(down, gfmKey_s);
+    BIND_KEY(right, gfmKey_d);
     /* TODO Bind other keys */
 
 #undef BIND_KEY

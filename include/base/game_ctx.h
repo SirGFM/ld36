@@ -118,6 +118,8 @@ struct stGameCtx {
 struct stGfxCtx {
     /** 8x8 spriteset of the main texture */
     gfmSpriteset *pSset8x8;
+    /** 16x16 spriteset of the main texture */
+    gfmSpriteset *pSset16x16;
     /** Handle of the main texture atlas */
     int texHandle;
 };
@@ -151,6 +153,11 @@ struct stButtonCtx {
     /** Update a single frame and pause */
     button dbgStep;
 #endif
+    button left;
+    button right;
+    button up;
+    button down;
+    button spawn;
     /* TODO Add buttons */
 };
 

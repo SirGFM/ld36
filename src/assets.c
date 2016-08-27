@@ -7,6 +7,9 @@
 #include <GFraMe/gfmError.h>
 #include <GFraMe/gframe.h>
 
+#include <base/game_const.h>
+#include <base/game_ctx.h>
+
 /**
  * Load all assets
  *
@@ -25,14 +28,11 @@ gfmRV assets_load() {
     rv = gfm_loadAudio(&(pAudio->var), pGame->pCtx, name, sizeof(name) - 1); \
     ASSERT(rv == GFMRV_OK, rv)
 
-#if 0
     rv = gfm_loadTextureStatic(&(pGfx->texHandle), pGame->pCtx, TEXATLAS,
             KEY_COLOR);
     ASSERT(rv == GFMRV_OK, rv);
-#else
-    /* TODO Remove this line! It's only here to avoid a warning. */
-    ASSERT(0, GFMRV_OK);
-#endif /* 0 */
+    GEN_SPRITESET(8, 8, pGfx->texHandle)
+    GEN_SPRITESET(16, 16, pGfx->texHandle)
 
     rv = GFMRV_OK;
 __ret:

@@ -11,9 +11,9 @@
 /* == Game's basic configurations =========================================== */
 
 /** Game's "organization" */
-#define ORG         "organization"
+#define ORG         "com.gfmgamecorner"
 /** Game's title */
-#define TITLE       "base"
+#define TITLE       "Burning Light"
 /** Config file name */
 #define CONF        "config.sav"
 /** Virtual window's width */
@@ -24,6 +24,8 @@
 #define CAN_RESIZE  1
 /** Initial background color in 0xAARRGGBB format */
 #define BG_COLOR    0xFF000000
+/** Atlas texture */
+#define TEXATLAS    "gfx/atlas.bmp"
 /** Spriteset used by the FPS counter. It's ignored, if NULL */
 #define FPS_SSET    pGfx->pSset8x8
 /** First ASCII tile in FPS_SSET */
