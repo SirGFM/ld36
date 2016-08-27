@@ -3,6 +3,7 @@
  *
  * Handles light particles
  */
+#include <base/collision.h>
 #include <base/game_const.h>
 #include <base/game_ctx.h>
 
@@ -115,7 +116,20 @@ __ret:
 
 /** Update every particle */
 gfmRV light_update() {
-    return gfmGroup_update(pGlobal->pLight, pGame->pCtx);
+    gfmRV rv;
+
+    rv = gfmGroup_update(pGlobal->pLight, pGame->pCtx);
+    ASSERT(rv == GFMRV_OK, rv);
+    rv = gfmQuadtree_collideGroup(pGlobal->pQt, pGlobal->pLight);
+    ASSERT(rv == GFMRV_QUADTREE_DONE || rv == GFMRV_QUADTREE_OVERLAPED, rv);
+    if (rv == GFMRV_QUADTREE_OVERLAPED) {
+        rv = collision_run();
+        ASSERT(rv == GFMRV_OK, rv);
+    }
+
+    rv = GFMRV_OK;
+__ret:
+    return rv;
 }
 
 /** Render the particles */

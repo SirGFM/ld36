@@ -40,6 +40,10 @@ static int _y = V_HEIGHT / 2;
 gfmRV playground_update() {
     gfmRV rv;
 
+    rv = gfmQuadtree_initRoot(pGlobal->pQt, -8/*x*/, -8/*y*/, V_WIDTH+16
+            , V_HEIGHT+16, QT_MAX_DEPTH, QT_MAX_NODES);
+    ASSERT(rv == GFMRV_OK, rv);
+
     if ((pButton->spawn.state & gfmInput_pressed) && _time <= 0) {
         int dstX, dstY;
         gfmInput *pInput;
