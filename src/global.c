@@ -65,6 +65,8 @@ gfmRV global_initUserVar() {
     /* TODO Initialize everything */
     rv = light_init();
     ASSERT(rv == GFMRV_OK, rv);
+    rv = lightSource_new(&pGlobal->pPlayerSource);
+    ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;
 __ret:
@@ -81,5 +83,7 @@ void global_freeUserVar() {
 
     gfmQuadtree_free(&(pGlobal->pQt));
     light_clean();
+    lightSourceList_clean();
+    lightSource_free(&pGlobal->pPlayerSource);
 }
 

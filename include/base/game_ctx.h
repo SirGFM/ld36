@@ -8,7 +8,10 @@
 
 #include <base/state.h>
 
+#include <ld36/light_source.h>
+
 #include <GFraMe/gframe.h>
+#include <GFraMe/gfmGenericArray.h>
 #include <GFraMe/gfmGroup.h>
 #include <GFraMe/gfmInput.h>
 #include <GFraMe/gfmQuadtree.h>
@@ -189,11 +192,14 @@ struct stConfigCtx {
 struct stGlobalCtx {
     /** The quadtree for collision */
     gfmQuadtreeRoot *pQt;
+
     /** Light particles */
     gfmGroup *pLight;
-
     /** How many particles there in the pLight */
     int lightLen;
+    gfmGenArr_var(lightSource, pLightSourceList);
+    lightSource *pPlayerSource;
+
     /* TODO Add any other globally accessible variable (e.g., a tilemap) */
 };
 

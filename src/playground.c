@@ -10,6 +10,7 @@
 #include <GFraMe/gfmError.h>
 
 #include <ld36/light.h>
+#include <ld36/light_source.h>
 #include <ld36/playground.h>
 
 /**
@@ -18,6 +19,8 @@
  * @return Return value
  */
 gfmRV playground_init() {
+    lightSourcePlayer_init(V_WIDTH / 2, 0, 10);
+
     return GFMRV_OK;
 }
 
@@ -56,6 +59,7 @@ gfmRV playground_update() {
 
     rv = light_update();
     ASSERT(rv == GFMRV_OK, rv);
+    lightSourceList_update();
 
     rv = GFMRV_OK;
 __ret:
