@@ -3,7 +3,13 @@
  *
  * Test state, for checking new features
  */
+#include <base/game_const.h>
+#include <base/game_ctx.h>
+
+#include <GFraMe/gfmAssert.h>
 #include <GFraMe/gfmError.h>
+
+#include <ld36/light.h>
 #include <ld36/playground.h>
 
 /**
@@ -17,8 +23,11 @@ gfmRV playground_init() {
 
 /** Clean (i.e., dealloc) the playground state */
 void playground_clean() {
-    return GFMRV_OK;
 }
+
+static int _time = 0;
+static int _x = V_WIDTH / 2;
+static int _y = V_HEIGHT / 2;
 
 /**
  * Update the playground state
@@ -26,7 +35,30 @@ void playground_clean() {
  * @return Return value
  */
 gfmRV playground_update() {
-    return GFMRV_OK;
+    gfmRV rv;
+
+    if ((pButton->spawn.state & gfmInput_pressed) && _time <= 0) {
+        int dstX, dstY;
+        gfmInput *pInput;
+
+        rv = gfm_getInput(&pInput, pGame->pCtx);
+        ASSERT(rv == GFMRV_OK, rv);
+        rv = gfmInput_getPointerPosition(&dstX, &dstY, pInput);
+        ASSERT(rv == GFMRV_OK, rv);
+        rv = light_spawn(_x, _y, dstX, dstY);
+        ASSERT(rv == GFMRV_OK, rv);
+        _time += LIGHT_COOLDOWN;
+    }
+    else if (_time <= 0) {
+        _time -= pGame->elapsed;
+    }
+
+    rv = light_update();
+    ASSERT(rv == GFMRV_OK, rv);
+
+    rv = GFMRV_OK;
+__ret:
+    return rv;
 }
 
 /**
@@ -35,6 +67,13 @@ gfmRV playground_update() {
  * @return Return value
  */
 gfmRV playground_draw() {
-    return GFMRV_OK;
+    gfmRV rv;
+
+    rv = light_draw();
+    ASSERT(rv == GFMRV_OK, rv);
+
+    rv = GFMRV_OK;
+__ret:
+    return rv;
 }
 

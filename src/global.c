@@ -10,6 +10,8 @@
 #include <GFraMe/gfmError.h>
 #include <GFraMe/gfmQuadtree.h>
 
+#include <ld36/light.h>
+
 /** Store data related to game */
 gameCtx *pGame = 0;
 
@@ -61,6 +63,8 @@ gfmRV global_initUserVar() {
     ASSERT(rv == GFMRV_OK, rv);
 
     /* TODO Initialize everything */
+    rv = light_init();
+    ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;
 __ret:
@@ -71,8 +75,11 @@ __ret:
  * Release all variables in pGlobal
  */
 void global_freeUserVar() {
-    if (pGlobal->pQt) {
-        gfmQuadtree_free(&(pGlobal->pQt));
+    if (!pGlobal) {
+        return;
     }
+
+    gfmQuadtree_free(&(pGlobal->pQt));
+    light_clean();
 }
 

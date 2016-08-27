@@ -8,6 +8,7 @@
           $(OBJDIR)/config.o \
           $(OBJDIR)/global.o \
           $(OBJDIR)/input.o \
+          $(OBJDIR)/light.o \
           $(OBJDIR)/main.o \
           $(OBJDIR)/playground.o
 #=======================================================================
@@ -92,6 +93,7 @@
   else
     LFLAGS := -lGFraMe_dbg
   endif
+  LFLAGS := $(LFLAGS) -lm
 # Add libs and paths required by an especific OS
   ifeq ($(OS), Win)
     LFLAGS := -mwindows -lmingw32 $(LFLAGS) -lSDL2main

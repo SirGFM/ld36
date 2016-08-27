@@ -69,5 +69,20 @@
 /** Number of nodes required for the quadtree to subdivide */
 #define QT_MAX_NODES    10
 
+/* == ... =================================================================== */
+
+/** At most 4k sprites for light particles, and it takes 0.5s to traverse the
+ * screen. If it were to last 4 screens, it would have to live for 2s.
+ * If being spawned in a stream, every particle will be distant by 1.5 times its
+ * radius*/
+#define MAX_LIGHT_LEN   4096
+#define LIGHT_RADIUS    4
+#define LIGHT_TTL       2000
+#define LIGHT_SCREEN_TRAVERSE_TIME  0.5
+#define LIGHT_DISTANCE_IN_RADIUS    1.5
+
+#define LIGHT_VELOCITY  (V_WIDTH / LIGHT_SCREEN_TRAVERSE_TIME)
+#define LIGHT_COOLDOWN  (LIGHT_RADIUS * LIGHT_DISTANCE_IN_RADIUS / LIGHT_VELOCITY)
+
 #endif /* __GAME_CONST_H__ */
 

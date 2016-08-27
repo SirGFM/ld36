@@ -9,6 +9,7 @@
 #include <base/state.h>
 
 #include <GFraMe/gframe.h>
+#include <GFraMe/gfmGroup.h>
 #include <GFraMe/gfmInput.h>
 #include <GFraMe/gfmQuadtree.h>
 #include <GFraMe/gfmSpriteset.h>
@@ -188,6 +189,11 @@ struct stConfigCtx {
 struct stGlobalCtx {
     /** The quadtree for collision */
     gfmQuadtreeRoot *pQt;
+    /** Light particles */
+    gfmGroup *pLight;
+
+    /** How many particles there in the pLight */
+    int lightLen;
     /* TODO Add any other globally accessible variable (e.g., a tilemap) */
 };
 
