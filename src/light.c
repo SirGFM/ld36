@@ -17,8 +17,7 @@
 
 static int _light_data[] = {
 /* len | fps | loop | frames */
-    8  ,  32 ,   0  , 16,17,18,19,20,21,22,23,
-    1  ,  0  ,   0  , 16, /* Required because I set a stupid min size on anim data*/
+    13 ,  6  ,   0  , 16,17,18,19,20,21,22,23,24,25,26,27,28
 };
 static const int _light_data_len = sizeof(_light_data) / sizeof(int);
 

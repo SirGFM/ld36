@@ -26,7 +26,7 @@ void playground_clean() {
 }
 
 static int _time = 0;
-static int _x = V_WIDTH / 2;
+static int _x = 0;
 static int _y = V_HEIGHT / 2;
 
 /**
@@ -47,9 +47,10 @@ gfmRV playground_update() {
         ASSERT(rv == GFMRV_OK, rv);
         rv = light_spawn(_x, _y, dstX, dstY);
         ASSERT(rv == GFMRV_OK, rv);
+
         _time += LIGHT_COOLDOWN;
     }
-    else if (_time <= 0) {
+    else if (_time > 0) {
         _time -= pGame->elapsed;
     }
 
