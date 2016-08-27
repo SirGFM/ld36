@@ -14,6 +14,7 @@
 #include <GFraMe/gfmTypes.h>
 
 #include <ld36/type.h>
+#include <ld36/lens.h>
 
 #if defined(DEBUG) && !(defined(__WIN32) || defined(__WIN32__))
 #include <stdlib.h>
@@ -100,9 +101,21 @@ gfmRV collision_run() {
   case ((type1) | (type2 << 16)): \
   case ((type2) | (type1 << 16)):
         switch (orType) {
+            CASE(T_LENS, T_LIGHT) {
+                if (isFirstCase) {
+                    rv = lens_reflect((gfmSprite*)pChild1, (gfmSprite*)pChild2);
+                }
+                else {
+                    rv = lens_reflect((gfmSprite*)pChild2, (gfmSprite*)pChild1);
+                }
+            } break;
             IGNORE(T_LIGHT, T_SOURCE)
+            IGNORE(T_LENS, T_SOURCE)
             IGNORESIMPLE(T_LIGHT)
             IGNORESIMPLE(T_SOURCE)
+            IGNORESIMPLE(T_LENS)
+                /* Simply ignore these cases */
+            break;
             /* On Linux, a SIGINT is raised any time a unhandled collision
              * happens. When debugging, GDB will stop here and allow the user to
              * check which types weren't handled */

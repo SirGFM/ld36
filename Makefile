@@ -8,6 +8,7 @@
           $(OBJDIR)/config.o \
           $(OBJDIR)/global.o \
           $(OBJDIR)/input.o \
+          $(OBJDIR)/lens.o \
           $(OBJDIR)/light.o \
           $(OBJDIR)/light_source.o \
           $(OBJDIR)/main.o \

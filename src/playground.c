@@ -9,6 +9,7 @@
 #include <GFraMe/gfmAssert.h>
 #include <GFraMe/gfmError.h>
 
+#include <ld36/lens.h>
 #include <ld36/light.h>
 #include <ld36/light_source.h>
 #include <ld36/playground.h>
@@ -44,6 +45,19 @@ gfmRV playground_update() {
             , V_HEIGHT+16, QT_MAX_DEPTH, QT_MAX_NODES);
     ASSERT(rv == GFMRV_OK, rv);
 
+    if ((pButton->spawn.state & gfmInput_justPressed)
+            == gfmInput_justPressed) {
+        int x, y;
+        gfmInput *pInput;
+
+        rv = gfm_getInput(&pInput, pGame->pCtx);
+        ASSERT(rv == GFMRV_OK, rv);
+        rv = gfmInput_getPointerPosition(&x, &y, pInput);
+        ASSERT(rv == GFMRV_OK, rv);
+        rv = lens_spawn(x, y, LENS_45);
+        ASSERT(rv == GFMRV_OK, rv);
+    }
+
     if ((pButton->spawn.state & gfmInput_pressed) && _time <= 0) {
         int dstX, dstY;
         gfmInput *pInput;
@@ -61,6 +75,8 @@ gfmRV playground_update() {
         _time -= pGame->elapsed;
     }
 
+    rv = lenses_update();
+    ASSERT(rv == GFMRV_OK, rv);
     rv = light_update();
     ASSERT(rv == GFMRV_OK, rv);
     lightSourceList_update();
@@ -78,6 +94,8 @@ __ret:
 gfmRV playground_draw() {
     gfmRV rv;
 
+    rv = lenses_draw();
+    ASSERT(rv == GFMRV_OK, rv);
     rv = light_draw();
     ASSERT(rv == GFMRV_OK, rv);
 

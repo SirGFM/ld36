@@ -45,7 +45,7 @@ gfmRV light_init() {
     rv = gfmGroup_setDefDimensions(pGlobal->pLight, 8/*w*/, 8/*h*/, -4/*offx*/
             , -4/*offy*/);
     ASSERT(rv == GFMRV_OK, rv);
-    rv = gfmGroup_setDeathOnLeave(pGlobal->pLight, 1/*doDie*/);
+    rv = gfmGroup_setDeathOnLeave(pGlobal->pLight, 0/*dontDie*/);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmGroup_setDeathOnTime(pGlobal->pLight, LIGHT_TTL);
     ASSERT(rv == GFMRV_OK, rv);

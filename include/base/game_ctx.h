@@ -124,6 +124,8 @@ struct stGfxCtx {
     gfmSpriteset *pSset8x8;
     /** 16x16 spriteset of the main texture */
     gfmSpriteset *pSset16x16;
+    /** 32x32 spriteset of the main texture */
+    gfmSpriteset *pSset32x32;
     /** Handle of the main texture atlas */
     int texHandle;
 };
@@ -195,6 +197,8 @@ struct stGlobalCtx {
 
     /** Light particles */
     gfmGroup *pLight;
+    /** Group of lenses */
+    gfmGroup *pLenses;
     /** How many particles there in the pLight */
     int lightLen;
     gfmGenArr_var(lightSource, pLightSourceList);

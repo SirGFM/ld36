@@ -10,6 +10,7 @@
 #include <GFraMe/gfmError.h>
 #include <GFraMe/gfmQuadtree.h>
 
+#include <ld36/lens.h>
 #include <ld36/light.h>
 
 /** Store data related to game */
@@ -63,6 +64,8 @@ gfmRV global_initUserVar() {
     ASSERT(rv == GFMRV_OK, rv);
 
     /* TODO Initialize everything */
+    rv = lenses_init();
+    ASSERT(rv == GFMRV_OK, rv);
     rv = light_init();
     ASSERT(rv == GFMRV_OK, rv);
     rv = lightSource_new(&pGlobal->pPlayerSource);
@@ -82,6 +85,7 @@ void global_freeUserVar() {
     }
 
     gfmQuadtree_free(&(pGlobal->pQt));
+    lenses_clean();
     light_clean();
     lightSourceList_clean();
     lightSource_free(&pGlobal->pPlayerSource);
