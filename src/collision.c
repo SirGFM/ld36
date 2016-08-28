@@ -13,8 +13,9 @@
 #include <GFraMe/gfmSprite.h>
 #include <GFraMe/gfmTypes.h>
 
-#include <ld36/type.h>
 #include <ld36/lens.h>
+#include <ld36/player.h>
+#include <ld36/type.h>
 
 #if defined(DEBUG) && !(defined(__WIN32) || defined(__WIN32__))
 #include <stdlib.h>
@@ -101,6 +102,29 @@ gfmRV collision_run() {
   case ((type1) | (type2 << 16)): \
   case ((type2) | (type1 << 16)):
         switch (orType) {
+            CASE(T_PLAYER, T_FLOOR) {
+                gfmObject *pFloor;
+
+                if (isFirstCase) {
+                    pFloor = pObj2;
+                }
+                else {
+                    pFloor = pObj1;
+                }
+
+                player_collideFloor(pFloor);
+            } break;
+            CASE(T_LIGHT, T_FLOOR) {
+                gfmGroupNode *pNode;
+
+                if (isFirstCase) {
+                    pNode = (gfmGroupNode*)pChild1;
+                }
+                else {
+                    pNode = (gfmGroupNode*)pChild2;
+                }
+                rv = gfmGroup_removeNode(pNode);
+            } break;
             CASE(T_LENS, T_LIGHT) {
                 int type;
                 gfmSprite *pLens, *pLight;

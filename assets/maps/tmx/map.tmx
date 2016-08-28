@@ -75,7 +75,7 @@
 </data>
  </layer>
  <objectgroup name="objects">
-  <object id="1" name="player" type="player" gid="1345" x="16" y="96" width="16" height="16"/>
+  <object id="1" name="player" type="player" gid="1345" x="16" y="97" width="16" height="16"/>
   <object id="2" name="head_torch" type="torch" gid="1689" x="120" y="69" width="32" height="32"/>
   <object id="4" name="target" type="target" gid="1152" x="37" y="44" width="8" height="32"/>
  </objectgroup>

@@ -27,6 +27,7 @@ enum enType {
     T_LENS = gfmType_reserved_2, /* pink */
     T_LIGHT = gfmType_reserved_4, /* green */
     T_FLOOR = gfmType_reserved_5, /* purple */
+    T_PLAYER = gfmType_reserved_7, /* light red */
     T_SOURCE = gfmType_reserved_11,  /* white */
 };
 typedef enum enType type;

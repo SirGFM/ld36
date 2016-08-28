@@ -94,11 +94,25 @@
 #define LENSES_OFFX     -8
 #define LENSES_OFFY     -8
 
+#define TILE_SIZE       8
 #define MAP_WIDTH       200
 #define MAP_HEIGHT      15
 #define MAP_FILE        "maps/map_platforms.gfm"
 #define PARALLAX_FILE   "maps/map_parallax.gfm"
+#define OBJECTS_FILE    "maps/map_objects.gfm"
 
+#define PLAYER_WIDTH    4
+#define PLAYER_HEIGHT   10
+#define PLAYER_OFFX     -6
+#define PLAYER_OFFY     -5
+
+#define PLAYER_TILES_PER_SEC    8
+
+#define UP_GRAV          380
+#define DOWN_GRAV        525
+
+#define PLAYER_VX       (((double)TILE_SIZE) * PLAYER_TILES_PER_SEC)
+#define PLAYER_JUMP     -165
 
 #endif /* __GAME_CONST_H__ */
 

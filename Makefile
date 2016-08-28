@@ -12,6 +12,7 @@
           $(OBJDIR)/light.o \
           $(OBJDIR)/light_source.o \
           $(OBJDIR)/main.o \
+          $(OBJDIR)/player.o \
           $(OBJDIR)/playground.o \
           $(OBJDIR)/playstate.o
 #=======================================================================

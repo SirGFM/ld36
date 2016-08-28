@@ -219,6 +219,9 @@ struct stGlobalCtx {
     gfmTilemap *pMap;
     gfmTilemap *pParallax;
 
+    gfmSprite *pPlayer;
+    int playerAnim;
+
     /* TODO Add any other globally accessible variable (e.g., a tilemap) */
 };
 
