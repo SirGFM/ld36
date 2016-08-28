@@ -103,6 +103,8 @@ gfmRV torch_spawn(gfmParser *pParser) {
     ASSERT(rv == GFMRV_OK, rv);
     ASSERT(num == 1, rv);
 
+    y += V_HEIGHT / 2;
+
     /* Retrieve the specific torch type */
     rv = gfmParser_getProperty(&key, &val, pParser, 0/*index*/);
     ASSERT(rv == GFMRV_OK, rv);

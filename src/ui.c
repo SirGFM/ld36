@@ -6,9 +6,26 @@
 #include <GFraMe/gfmError.h>
 #include <GFraMe/gframe.h>
 
+#define CENTER_X ((V_WIDTH - 32) / 2)
+#define CENTER_Y (16)
+
 /* Positions for lenses, roughly in a circle */
-static const int _x[] = {64, 92,  100, 106,  22,  28, 36};
-static const int _y[] = {-4, -6,  -18, -22, -22, -18, -6};
+static const int _x[] = {
+    CENTER_X + 0,
+    CENTER_X + 36,
+    CENTER_X + 54,
+    CENTER_X + 66,
+    CENTER_X + -66,
+    CENTER_X + -54,
+    CENTER_X + -36};
+static const int _y[] = {
+    CENTER_Y + 0,
+    CENTER_Y + -2,
+    CENTER_Y + -16,
+    CENTER_Y + -22,
+    CENTER_Y + -22,
+    CENTER_Y + -16,
+    CENTER_Y + -2};
 
 static gfmRV _draw_lenses() {
     gfmRV rv;
@@ -47,26 +64,30 @@ __ret:
 static gfmRV _draw_count() {
     gfmRV rv;
 
+#define BASE_X 261
+#define BASE_Y -5
+
     /* Draw number of lenses being carried */
-    rv = gfm_drawTile(pGame->pCtx, pGfx->pSset64x32, 101/*x*/, -5/*y*/
+    rv = gfm_drawTile(pGame->pCtx, pGfx->pSset64x32, BASE_X/*x*/, BASE_Y/*y*/
             , 10/*tile*/, 0/*isFlipped*/);
     ASSERT(rv == GFMRV_OK, rv);
 
 #define DRAW_CHAR(x, y, c) \
-    rv = gfm_drawTile(pGame->pCtx, pGfx->pSset8x8, x, y, (c) - '!', 0); \
+    rv = gfm_drawTile(pGame->pCtx, pGfx->pSset8x8, BASE_X + x, BASE_Y + y, \
+            (c) - '!', 0); \
     ASSERT(rv == GFMRV_OK, rv)
-    DRAW_CHAR(109, 3, 'L');
-    DRAW_CHAR(117, 3, 'E');
-    DRAW_CHAR(125, 3, 'N');
-    DRAW_CHAR(133, 3, 'S');
-    DRAW_CHAR(141, 3, ':');
-    DRAW_CHAR(149, 3, pGlobal->playerCurLens + '0');
+    DRAW_CHAR(8, 8, 'L');
+    DRAW_CHAR(16, 8, 'E');
+    DRAW_CHAR(24, 8, 'N');
+    DRAW_CHAR(32, 8, 'S');
+    DRAW_CHAR(40, 8, ':');
+    DRAW_CHAR(48, 8, pGlobal->playerCurLens + '0');
 
-    DRAW_CHAR(117, 11, 'M');
-    DRAW_CHAR(125, 11, 'A');
-    DRAW_CHAR(133, 11, 'X');
-    DRAW_CHAR(141, 11, ':');
-    DRAW_CHAR(149, 11, pGlobal->playerMaxLens + '0');
+    DRAW_CHAR(16, 16, 'M');
+    DRAW_CHAR(24, 16, 'A');
+    DRAW_CHAR(32, 16, 'X');
+    DRAW_CHAR(40, 16, ':');
+    DRAW_CHAR(48, 16, pGlobal->playerMaxLens + '0');
 
     rv = GFMRV_OK;
 __ret:

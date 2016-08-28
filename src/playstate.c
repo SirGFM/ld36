@@ -43,8 +43,8 @@ gfmRV playstate_init() {
     ASSERT(rv == GFMRV_OK, rv);
     pGlobal->torchCount = 0;
     pGlobal->playerLensIndex = -1;
-    pGlobal->playerMaxLens = 1;
-    pGlobal->playerCurLens = 1;
+    pGlobal->playerMaxLens = INITIAL_TARGETS;
+    pGlobal->playerCurLens = INITIAL_TARGETS;
     memset(pGlobal->ppIndexedLens, 0x0, sizeof(gfmSprite*) * LENSES_LIST_LEN);
 
     pGlobal->curLensDir = LENS_DOWN;
@@ -56,6 +56,28 @@ gfmRV playstate_init() {
     rv = gfmTilemap_loadf(pGlobal->pMap, pGame->pCtx, MAP_FILE
             , sizeof(MAP_FILE)-1, _mapKeys, _mapValues, _mapDictLen);
     ASSERT(rv == GFMRV_OK, rv);
+    rv = gfmTilemap_setPosition(pGlobal->pMap, 0/*x*/, V_HEIGHT/2/*y*/);
+    ASSERT(rv == GFMRV_OK, rv);
+    do {
+        gfmObject *pObj;
+        int len, i;
+
+        rv = gfmTilemap_getAreasLength(&len, pGlobal->pMap);
+        ASSERT(rv == GFMRV_OK, rv);
+        i = 0;
+        while (i < len) {
+            int y;
+
+            rv = gfmTilemap_getArea(&pObj, pGlobal->pMap, i);
+            ASSERT(rv == GFMRV_OK, rv);
+
+            rv = gfmObject_getVerticalPosition(&y, pObj);
+            ASSERT(rv == GFMRV_OK, rv);
+            rv = gfmObject_setVerticalPosition(pObj, y + V_HEIGHT/2);
+            ASSERT(rv == GFMRV_OK, rv);
+            i++;
+        }
+    } while (0);
 
     rv = gfmTilemap_init(pGlobal->pParallax, pGfx->pSset8x8, MAP_WIDTH
             , MAP_HEIGHT, -1/*defTilemap*/);
@@ -63,12 +85,15 @@ gfmRV playstate_init() {
     rv = gfmTilemap_loadf(pGlobal->pParallax, pGame->pCtx, PARALLAX_FILE
             , sizeof(PARALLAX_FILE)-1, _mapKeys, _mapValues, _mapDictLen);
     ASSERT(rv == GFMRV_OK, rv);
+    rv = gfmTilemap_setPosition(pGlobal->pParallax, 0/*x*/, V_HEIGHT/2/*y*/);
+    ASSERT(rv == GFMRV_OK, rv);
 
     rv = gfmTilemap_getDimension(&pGlobal->worldWidth, &pGlobal->worldHeight
             , pGlobal->pMap);
     ASSERT(rv == GFMRV_OK, rv);
     /* TODO Correctly get this value */
     pGlobal->worldWidth = 108 * 8;
+    pGlobal->worldHeight = V_HEIGHT;
 
 
     /* Parse stuff */
@@ -107,7 +132,7 @@ gfmRV playstate_init() {
 
             rv = gfmParser_getPos(&x, &y, pParser);
             ASSERT(rv == GFMRV_OK, rv);
-            rv = lightSourceList_init(0, 0, pGlobal->worldWidth
+            rv = lightSourceList_init(x-32, 0, 64
                     , pGlobal->worldHeight, x, y);
         }
         else {
@@ -196,7 +221,7 @@ gfmRV playstate_update() {
     ASSERT(rv == GFMRV_OK, rv);
     x = -(x / (V_WIDTH / 4));
     if (x > 0) x = 0;
-    rv = gfmTilemap_setPosition(pGlobal->pParallax, x, 0/*y*/);
+    rv = gfmTilemap_setPosition(pGlobal->pParallax, x, V_HEIGHT/2/*y*/);
     ASSERT(rv == GFMRV_OK, rv);
 
     player_postUpdate();

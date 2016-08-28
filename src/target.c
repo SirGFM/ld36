@@ -85,6 +85,8 @@ gfmRV target_spawn(gfmParser *pParser) {
     rv = gfmGroup_setFrame(pGlobal->pTargets, 127/*frame*/);
     ASSERT(rv == GFMRV_OK, rv);
 
+    y += V_HEIGHT / 2;
+
     y -= 28;
     rv = gfmSprite_setPosition(pSpr, x, y);
     ASSERT(rv == GFMRV_OK, rv);

@@ -1,4 +1,5 @@
 
+#include <base/collision.h>
 #include <base/game_const.h>
 #include <base/game_ctx.h>
 

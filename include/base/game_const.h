@@ -17,9 +17,9 @@
 /** Config file name */
 #define CONF        "config.sav"
 /** Virtual window's width */
-#define V_WIDTH     160
+#define V_WIDTH     320
 /** Virtual window's height */
-#define V_HEIGHT    120
+#define V_HEIGHT    240
 /** Whether the user can resize the game window */
 #define CAN_RESIZE  1
 /** Initial background color in 0xAARRGGBB format */
@@ -128,10 +128,12 @@
 /* Number of light particles required to lit the torch */
 #define TORCH_POWER     10
 
-#define DEADZONE_X       48
+#define DEADZONE_X       64
 #define DEADZONE_Y       0
-#define DEADZONE_W       64
-#define DEADZONE_H       120
+#define DEADZONE_W       ((V_WIDTH - DEADZONE_X) / 2)
+#define DEADZONE_H       V_HEIGHT
+
+#define INITIAL_TARGETS  5
 
 #endif /* __GAME_CONST_H__ */
 
