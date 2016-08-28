@@ -15,6 +15,7 @@
 
 #include <ld36/lens.h>
 #include <ld36/player.h>
+#include <ld36/torch.h>
 #include <ld36/type.h>
 
 #if defined(DEBUG) && !(defined(__WIN32) || defined(__WIN32__))
@@ -76,6 +77,7 @@ gfmRV collision_run() {
         /** Objects' types OR'd together */
         int orType;
         int isFirstCase;
+        int fallthrough;
 
         /* Retrieve the two overlaping objects and their types */
         rv = gfmQuadtree_getOverlaping(&pObj1, &pObj2, pGlobal->pQt);
@@ -85,27 +87,52 @@ gfmRV collision_run() {
         rv = collision_getSubtype(&pChild2, &type2, pObj2);
         ASSERT(rv == GFMRV_OK, rv);
 
+#define TYPE(type) \
+    (type & T_MASK)
+
         /* If types have at most 16 bits, one could easily OR them together to
          * use a nice case to filter collision/handle */
-        orType = type1 | (type2 << 16);
+        orType = TYPE(type1) | (TYPE(type2) << T_BITS);
         isFirstCase = 0;
 
         /* Handle the collision */
         rv = GFMRV_OK;
+
 #define CASE(type1, type2) \
-  case ((type1) | (type2 << 16)): \
-    isFirstCase = 1; \
-  case ((type2) | (type1 << 16)):
+    case (TYPE(type1) | (TYPE(type2) << T_BITS)): \
+        if (!fallthrough) isFirstCase = 1; \
+            fallthrough = 1; \
+    case (TYPE(type2) | (TYPE(type1) << T_BITS)): \
+            fallthrough = 1;
+
 #define IGNORESIMPLE(type) \
-  case ((type) | (type << 16)):
+    case (TYPE(type) | (TYPE(type) << T_BITS)):
+
 #define IGNORE(type1, type2) \
-  case ((type1) | (type2 << 16)): \
-  case ((type2) | (type1 << 16)):
+    case (TYPE(type1) | (TYPE(type2) << T_BITS)): \
+    case (TYPE(type2) | (TYPE(type1) << T_BITS)):
+
+        fallthrough = 0;
         switch (orType) {
-            CASE(T_LIGHT, T_TORCH_HEAD)
-            CASE(T_LIGHT, T_TORCH_BOOT)
-            CASE(T_LIGHT, T_TORCH_HAND) {
-                /* TODO Implement collision betweeb torch & light particle */
+            CASE(T_TORCH_HEAD, T_LIGHT)
+            CASE(T_TORCH_BOOT, T_LIGHT)
+            CASE(T_TORCH_HAND, T_LIGHT) {
+                gfmSprite *pTorch;
+                gfmGroupNode *pNode;
+                int type;
+
+                if (isFirstCase) {
+                    rv = gfmObject_getChild((void**)&pTorch, &type, pObj1);
+                    ASSERT(rv == GFMRV_OK, rv);
+                    pNode = (gfmGroupNode*)pChild2;
+                }
+                else {
+                    rv = gfmObject_getChild((void**)&pTorch, &type, pObj2);
+                    ASSERT(rv == GFMRV_OK, rv);
+                    pNode = (gfmGroupNode*)pChild1;
+                }
+                torch_onCollideLight(pTorch);
+                gfmGroup_removeNode(pNode);
             } break;
             CASE(T_PLAYER, T_FLOOR) {
                 gfmObject *pFloor;

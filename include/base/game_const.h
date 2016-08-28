@@ -117,6 +117,8 @@
 #define MAX_TORCHES     10
 #define TORCH_WIDTH     8
 #define TORCH_HEIGHT    8
+/* Number of light particles required to lit the torch */
+#define TORCH_POWER     10
 
 #endif /* __GAME_CONST_H__ */
 

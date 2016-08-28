@@ -110,6 +110,8 @@ gfmRV playstate_update() {
 
     rv = torches_update();
     ASSERT(rv == GFMRV_OK, rv);
+    rv = light_update();
+    ASSERT(rv == GFMRV_OK, rv);
 
     rv = player_preUpdate();
     ASSERT(rv == GFMRV_OK, rv);
@@ -141,6 +143,8 @@ gfmRV playstate_draw() {
     rv = torches_draw();
     ASSERT(rv == GFMRV_OK, rv);
     rv = player_draw();
+    ASSERT(rv == GFMRV_OK, rv);
+    rv = light_draw();
     ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;

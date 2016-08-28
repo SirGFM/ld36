@@ -4,6 +4,7 @@
 
 #include <GFraMe/gfmError.h>
 #include <GFraMe/gfmParser.h>
+#include <GFraMe/gfmSprite.h>
 
 enum enTorchAnims {
     HEAD = 0,
@@ -26,6 +27,8 @@ gfmRV torches_update();
 gfmRV torches_draw();
 
 gfmRV torch_spawn(gfmParser *pParser);
+
+void torch_onCollideLight(gfmSprite *pSelf);
 
 #endif /* __TORCH_H__ */
 

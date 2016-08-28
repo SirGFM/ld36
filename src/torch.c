@@ -154,3 +154,41 @@ __ret:
     return rv;
 }
 
+void torch_onCollideLight(gfmSprite *pSelf) {
+    void *tmp = 0;
+    int type, power;
+
+    gfmSprite_getChild(&tmp, &type, pSelf);
+
+    /* Extract only the power (hit count) from the type and increase it */
+    power = type >> T_BITS;
+    type &= T_MASK;
+    power++;
+
+    if (power >= TORCH_POWER) {
+        int anim;
+
+        switch (type) {
+            case T_TORCH_HEAD: {
+                type = T_TORCH_HEAD_LIT;
+                anim = HEAD_LIT;
+            } break;
+            case T_TORCH_BOOT: {
+                type = T_TORCH_BOOT_LIT;
+                anim = BOOT_LIT;
+            } break;
+            case T_TORCH_HAND: {
+                type = T_TORCH_HAND_LIT;
+                anim = HAND_LIT;
+            } break;
+        }
+
+        gfmSprite_playAnimation(pSelf, anim);
+    }
+    else {
+        type |= power << T_BITS;
+    }
+
+    gfmSprite_setType(pSelf, type);
+}
+

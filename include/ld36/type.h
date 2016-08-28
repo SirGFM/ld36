@@ -19,9 +19,13 @@
  */
 
 /* Mask that returns only the entity, ignoring its base type */
-#define T_MASK 0x0000ffe0
-/* Number of bits for the types */
-#define T_NBITS 5
+#define T_ENTITY 0x0000ffe0
+/* Mask that return the proper 16 bit type */
+#define T_MASK 0x0000ffff
+/* Number of bits per type */
+#define T_BITS 16
+/* Number of bits until the entity (i.e., to skip the type) */
+#define T_ENT_NBITS 5
 
 enum enType {
     T_LENS = gfmType_reserved_2, /* pink */
@@ -32,12 +36,12 @@ enum enType {
     T_SOURCE = gfmType_reserved_11,  /* white */
 
 
-    T_TORCH_HEAD     = (1 << T_NBITS) | T_TORCH,
-    T_TORCH_HEAD_LIT = (2 << T_NBITS) | T_TORCH,
-    T_TORCH_BOOT     = (3 << T_NBITS) | T_TORCH,
-    T_TORCH_BOOT_LIT = (4 << T_NBITS) | T_TORCH,
-    T_TORCH_HAND     = (5 << T_NBITS) | T_TORCH,
-    T_TORCH_HAND_LIT = (6 << T_NBITS) | T_TORCH
+    T_TORCH_HEAD     = (1 << T_ENT_NBITS) | T_TORCH,
+    T_TORCH_HEAD_LIT = (2 << T_ENT_NBITS) | T_TORCH,
+    T_TORCH_BOOT     = (3 << T_ENT_NBITS) | T_TORCH,
+    T_TORCH_BOOT_LIT = (4 << T_ENT_NBITS) | T_TORCH,
+    T_TORCH_HAND     = (5 << T_ENT_NBITS) | T_TORCH,
+    T_TORCH_HAND_LIT = (6 << T_ENT_NBITS) | T_TORCH
 };
 typedef enum enType type;
 
