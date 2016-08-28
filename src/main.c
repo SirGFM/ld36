@@ -15,6 +15,7 @@
 #include <GFraMe/gframe.h>
 
 #include <ld36/playground.h>
+#include <ld36/playstate.h>
 
 /** Required by malloc() and free() */
 #include <stdlib.h>
@@ -36,6 +37,7 @@ gfmRV main_loop() {
             /* TODO Init the current state, if switching */
             switch (pGame->nextState) {
                 case ST_PLAYGROUND: rv = playground_init(); break;
+                case ST_PLAYSTATE: rv = playstate_init(); break;
                 default: rv = GFMRV_INTERNAL_ERROR;
             }
             ASSERT(rv == GFMRV_OK, rv);
@@ -89,6 +91,7 @@ gfmRV main_loop() {
             /* TODO Update the current state */
             switch (pGame->curState) {
                 case ST_PLAYGROUND: rv = playground_update(); break;
+                case ST_PLAYSTATE: rv = playstate_update(); break;
                 default: rv = GFMRV_INTERNAL_ERROR;
             }
             ASSERT(rv == GFMRV_OK, rv);
@@ -107,6 +110,7 @@ gfmRV main_loop() {
             /* TODO Render the current state */
             switch (pGame->curState) {
                 case ST_PLAYGROUND: rv = playground_draw(); break;
+                case ST_PLAYSTATE: rv = playstate_draw(); break;
                 default: rv = GFMRV_INTERNAL_ERROR;
             }
             ASSERT(rv == GFMRV_OK, rv);
@@ -126,6 +130,7 @@ gfmRV main_loop() {
             /* TODO Clear the current state, if switching */
             switch (pGame->curState) {
                 case ST_PLAYGROUND: playground_clean(); break;
+                case ST_PLAYSTATE: {} break;
                 default: ASSERT(0, GFMRV_INTERNAL_ERROR);
             }
 
@@ -234,7 +239,7 @@ int main(int argc, char *argv[]) {
     ASSERT(rv == GFMRV_OK, rv);
 
     /* TODO Set the initial state */
-    pGame->nextState = ST_PLAYGROUND;
+    pGame->nextState = ST_PLAYSTATE;
 #if defined(DEBUG)
     /* Set debug mode to running instead of stepping */
     pGame->flags |= GAME_RUN;

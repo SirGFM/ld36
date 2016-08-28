@@ -17,13 +17,13 @@
 /** Config file name */
 #define CONF        "config.sav"
 /** Virtual window's width */
-#define V_WIDTH     320
+#define V_WIDTH     160
 /** Virtual window's height */
-#define V_HEIGHT    240
+#define V_HEIGHT    120
 /** Whether the user can resize the game window */
 #define CAN_RESIZE  1
 /** Initial background color in 0xAARRGGBB format */
-#define BG_COLOR    0xFF000000
+#define BG_COLOR    0xFF5B6EE1
 /** Atlas texture */
 #define TEXATLAS    "gfx/atlas.bmp"
 /** Spriteset used by the FPS counter. It's ignored, if NULL */
@@ -93,6 +93,12 @@
 #define LENSES_HEIGHT   16
 #define LENSES_OFFX     -8
 #define LENSES_OFFY     -8
+
+#define MAP_WIDTH       200
+#define MAP_HEIGHT      15
+#define MAP_FILE        "maps/map_platforms.gfm"
+#define PARALLAX_FILE   "maps/map_parallax.gfm"
+
 
 #endif /* __GAME_CONST_H__ */
 

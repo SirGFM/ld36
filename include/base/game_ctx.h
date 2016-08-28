@@ -16,6 +16,7 @@
 #include <GFraMe/gfmInput.h>
 #include <GFraMe/gfmQuadtree.h>
 #include <GFraMe/gfmSpriteset.h>
+#include <GFraMe/gfmTilemap.h>
 #include <GFraMe/core/gfmAudio_bkend.h>
 
 /* == Types declaration ===================================================== */
@@ -214,6 +215,9 @@ struct stGlobalCtx {
     int lightLen;
     gfmGenArr_var(lightSource, pLightSourceList);
     lightSource *pPlayerSource;
+
+    gfmTilemap *pMap;
+    gfmTilemap *pParallax;
 
     /* TODO Add any other globally accessible variable (e.g., a tilemap) */
 };

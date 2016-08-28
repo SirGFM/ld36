@@ -70,6 +70,10 @@ gfmRV global_initUserVar() {
     ASSERT(rv == GFMRV_OK, rv);
     rv = lightSource_new(&pGlobal->pPlayerSource);
     ASSERT(rv == GFMRV_OK, rv);
+    rv = gfmTilemap_getNew(&pGlobal->pMap);
+    ASSERT(rv == GFMRV_OK, rv);
+    rv = gfmTilemap_getNew(&pGlobal->pParallax);
+    ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;
 __ret:
@@ -85,6 +89,9 @@ void global_freeUserVar() {
     }
 
     gfmQuadtree_free(&(pGlobal->pQt));
+
+    gfmTilemap_free(&pGlobal->pMap);
+    gfmTilemap_free(&pGlobal->pParallax);
     lenses_clean();
     light_clean();
     lightSourceList_clean();

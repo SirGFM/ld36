@@ -24,9 +24,10 @@
 #define T_NBITS 5
 
 enum enType {
-    T_LIGHT = gfmType_reserved_4, /* green */
-    T_SOURCE = gfmType_reserved_11,  /* white */
     T_LENS = gfmType_reserved_2, /* pink */
+    T_LIGHT = gfmType_reserved_4, /* green */
+    T_FLOOR = gfmType_reserved_5, /* purple */
+    T_SOURCE = gfmType_reserved_11,  /* white */
 };
 typedef enum enType type;
 
