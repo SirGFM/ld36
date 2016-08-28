@@ -12,7 +12,7 @@
 #include <GFraMe/gfmSprite.h>
 
 enum enLensFrame {
-    LENS_LEFT = 8,
+    LENS_LEFT = 16,
     LENS_150,
     LENS_135,
     LENS_DOWN,

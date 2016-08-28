@@ -18,7 +18,7 @@
 
 static int _light_data[] = {
 /* len | fps | loop | frames */
-    13 ,  6  ,   0  , 16,17,18,19,20,21,22,23,24,25,26,27,28
+    13 ,  6  ,   0  , 32,33,34,35,36,37,38,39,40,41,42,43,44
 };
 static const int _light_data_len = sizeof(_light_data) / sizeof(int);
 
