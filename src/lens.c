@@ -58,8 +58,10 @@ gfmRV lenses_reset() {
 }
 
 gfmRV lens_spawn(int x, int y, lensFrame frame) {
-    gfmRV rv;
+    void *tmp;
     gfmSprite *pSpr;
+    gfmRV rv;
+    int i, type;
 
     rv = gfmGroup_recycle(&pSpr, pGlobal->pLenses);
     ASSERT(rv == GFMRV_OK, rv);
@@ -69,13 +71,28 @@ gfmRV lens_spawn(int x, int y, lensFrame frame) {
     rv = gfmSprite_setFrame(pSpr, frame);
     ASSERT(rv == GFMRV_OK, rv);
 
+    i = 0;
+    while (i < LENSES_LIST_LEN) {
+        if (pGlobal->ppIndexedLens[i] == 0) {
+            break;
+        }
+        i++;
+    }
+    ASSERT(i < LENSES_LIST_LEN, GFMRV_FUNCTION_FAILED);
+
+    /** Store the lens index on its type */
+    pGlobal->ppIndexedLens[i] = pSpr;
+    gfmSprite_getChild(&tmp, &type, pSpr);
+    type = (type & T_MASK) | (i << T_BITS);
+    gfmSprite_setType(pSpr, type);
+
     rv = GFMRV_OK;
 __ret:
     return rv;
 }
 
 gfmRV lens_kill(gfmSprite *pLens) {
-    int type;
+    int type, i;
     gfmRV rv;
     gfmGroupNode *pNode;
 
@@ -83,6 +100,13 @@ gfmRV lens_kill(gfmSprite *pLens) {
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmGroup_removeNode(pNode);
     ASSERT(rv == GFMRV_OK, rv);
+
+    i = type >> T_BITS;
+    ASSERT(pGlobal->ppIndexedLens[i] == pLens, GFMRV_FUNCTION_FAILED);
+    pGlobal->ppIndexedLens[i] = 0;
+
+    type &= T_MASK;
+    gfmSprite_setType(pLens, type);
 
     rv = GFMRV_OK;
 __ret:

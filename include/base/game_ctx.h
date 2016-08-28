@@ -6,6 +6,7 @@
 #ifndef __GAME_CTX_H__
 #define __GAME_CTX_H__
 
+#include <base/game_const.h>
 #include <base/state.h>
 
 #include <ld36/light_source.h>
@@ -225,6 +226,12 @@ struct stGlobalCtx {
 
     gfmSprite *pPlayer;
     int playerAnim;
+
+    int torchCount;
+
+    /** Store lenses as they are recycled (since they aren't retrieveable from
+     * the current API */
+    gfmSprite *ppIndexedLens[LENSES_LIST_LEN];
 
     /* TODO Add any other globally accessible variable (e.g., a tilemap) */
 };

@@ -30,12 +30,15 @@ gfmRV playstate_init() {
     gfmParser *pParser = 0;
     gfmRV rv;
 
+    /* Reset stuff */
     rv = lenses_reset();
     ASSERT(rv == GFMRV_OK, rv);
     rv = light_reset();
     ASSERT(rv == GFMRV_OK, rv);
     rv = torches_reset();
     ASSERT(rv == GFMRV_OK, rv);
+    pGlobal->torchCount = 0;
+    memset(pGlobal->ppIndexedLens, 0x0, sizeof(gfmSprite*) * LENSES_LIST_LEN);
 
     /* Load Map & parallax */
     rv = gfmTilemap_init(pGlobal->pMap, pGfx->pSset8x8, MAP_WIDTH, MAP_HEIGHT
@@ -78,6 +81,7 @@ gfmRV playstate_init() {
         }
         else if (IS_TYPE("torch")) {
             rv = torch_spawn(pParser);
+            pGlobal->torchCount++;
         }
         else if (IS_TYPE("target")) {
         }
@@ -107,6 +111,20 @@ gfmRV playstate_update() {
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmQuadtree_populateTilemap(pGlobal->pQt, pGlobal->pMap);
     ASSERT(rv == GFMRV_OK, rv);
+
+#if defined(DEBUG)
+    if (DID_JUST_PRESS(spawn)) {
+        int dstX, dstY;
+        gfmInput *pInput;
+
+        rv = gfm_getInput(&pInput, pGame->pCtx);
+        ASSERT(rv == GFMRV_OK, rv);
+        rv = gfmInput_getPointerPosition(&dstX, &dstY, pInput);
+        ASSERT(rv == GFMRV_OK, rv);
+        rv = light_spawn(V_WIDTH/2-4, 0, dstX, dstY);
+        ASSERT(rv == GFMRV_OK, rv);
+    }
+#endif
 
     rv = torches_update();
     ASSERT(rv == GFMRV_OK, rv);
