@@ -85,6 +85,29 @@ __ret:
     return rv;
 }
 
+/** Update every particle */
+gfmRV lenses_update() {
+    gfmRV rv;
+
+    rv = gfmGroup_update(pGlobal->pLenses, pGame->pCtx);
+    ASSERT(rv == GFMRV_OK, rv);
+    rv = gfmQuadtree_collideGroup(pGlobal->pQt, pGlobal->pLenses);
+    ASSERT(rv == GFMRV_QUADTREE_DONE || rv == GFMRV_QUADTREE_OVERLAPED, rv);
+    if (rv == GFMRV_QUADTREE_OVERLAPED) {
+        rv = collision_run();
+        ASSERT(rv == GFMRV_OK, rv);
+    }
+
+    rv = GFMRV_OK;
+__ret:
+    return rv;
+}
+
+/** Render the particles */
+gfmRV lenses_draw() {
+    return gfmGroup_draw(pGlobal->pLenses, pGame->pCtx);
+}
+
 
 static int lens_checkCollision(gfmSprite *pLens, gfmSprite *pLight) {
     int lens_x, lens_y;
@@ -199,29 +222,5 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
     rv = GFMRV_OK;
 __ret:
     return rv;
-}
-
-
-/** Update every particle */
-gfmRV lenses_update() {
-    gfmRV rv;
-
-    rv = gfmGroup_update(pGlobal->pLenses, pGame->pCtx);
-    ASSERT(rv == GFMRV_OK, rv);
-    rv = gfmQuadtree_collideGroup(pGlobal->pQt, pGlobal->pLenses);
-    ASSERT(rv == GFMRV_QUADTREE_DONE || rv == GFMRV_QUADTREE_OVERLAPED, rv);
-    if (rv == GFMRV_QUADTREE_OVERLAPED) {
-        rv = collision_run();
-        ASSERT(rv == GFMRV_OK, rv);
-    }
-
-    rv = GFMRV_OK;
-__ret:
-    return rv;
-}
-
-/** Render the particles */
-gfmRV lenses_draw() {
-    return gfmGroup_draw(pGlobal->pLenses, pGame->pCtx);
 }
 
