@@ -143,12 +143,16 @@ gfmRV input_init() {
     ADD_KEY(dbgPause);
     ADD_KEY(dbgStep);
 #endif
+    ADD_KEY(spawn);
     ADD_KEY(fullscreen);
+
     ADD_KEY(left);
     ADD_KEY(right);
-    ADD_KEY(up);
-    ADD_KEY(down);
-    ADD_KEY(spawn);
+    ADD_KEY(jump);
+    ADD_KEY(cycleLeft);
+    ADD_KEY(cycleRight);
+    ADD_KEY(action);
+    ADD_KEY(power);
     /* TODO Add other keys */
 
 #undef ADD_KEY
@@ -169,10 +173,41 @@ gfmRV input_init() {
     BIND_KEY(gif, gfmKey_f9);
 #endif
     BIND_KEY(spawn, gfmPointer_button);
-    BIND_KEY(up, gfmKey_w);
+
+
     BIND_KEY(left, gfmKey_a);
-    BIND_KEY(down, gfmKey_s);
+    BIND_KEY(left, gfmKey_left);
+    BIND_GAMEPAD_BT(left, gfmController_left, 0);
+    BIND_GAMEPAD_BT(left, gfmController_laxis_left, 0);
+
     BIND_KEY(right, gfmKey_d);
+    BIND_KEY(right, gfmKey_right);
+    BIND_GAMEPAD_BT(right, gfmController_right, 0);
+    BIND_GAMEPAD_BT(right, gfmController_laxis_right, 0);
+
+    BIND_KEY(jump, gfmKey_w);
+    BIND_KEY(jump, gfmKey_up);
+    BIND_KEY(jump, gfmKey_space);
+    BIND_GAMEPAD_BT(jump, gfmController_a, 0);
+
+    BIND_KEY(cycleLeft, gfmKey_q);
+    BIND_KEY(cycleLeft, gfmKey_x);
+    BIND_GAMEPAD_BT(cycleLeft, gfmController_l1, 0);
+    BIND_GAMEPAD_BT(cycleLeft, gfmController_l2, 0);
+
+    BIND_KEY(cycleRight, gfmKey_e);
+    BIND_KEY(cycleRight, gfmKey_b);
+    BIND_GAMEPAD_BT(cycleRight, gfmController_r1, 0);
+    BIND_GAMEPAD_BT(cycleRight, gfmController_r2, 0);
+
+    BIND_KEY(action, gfmKey_lctrl);
+    BIND_KEY(action, gfmKey_c);
+    BIND_GAMEPAD_BT(action, gfmController_b, 0);
+
+    BIND_KEY(power, gfmKey_lshift);
+    BIND_KEY(power, gfmKey_v);
+    BIND_GAMEPAD_BT(power, gfmController_y, 0);
+
     /* TODO Bind other keys */
 
 #undef BIND_KEY

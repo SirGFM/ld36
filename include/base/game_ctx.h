@@ -161,13 +161,22 @@ struct stButtonCtx {
     /** Export a GIF */
     button gif;
 #endif
+    button spawn;
     button left;
     button right;
-    button up;
-    button down;
-    button spawn;
+    button jump;
+    button cycleLeft;
+    button cycleRight;
+    button action;
+    button power;
     /* TODO Add buttons */
 };
+
+/** Check if a given button is currently pressed */
+#define IS_PRESSED(button) (pButton->button.state & gfmInput_pressed)
+/** Check if a given button was just pressed (i.e., this frame) */
+#define DID_JUST_PRESS(button) ((pButton->button.state & gfmInput_justPressed) \
+        == gfmInput_justPressed)
 
 /** Store all data modifiably on the option menu, as well as anything that may
  * be saved on the config file */
