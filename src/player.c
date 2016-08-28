@@ -7,6 +7,7 @@
 #include <GFraMe/gfmError.h>
 #include <GFraMe/gfmParser.h>
 
+#include <ld36/lens.h>
 #include <ld36/player.h>
 #include <ld36/type.h>
 
@@ -45,12 +46,81 @@ __ret:
     return rv;
 }
 
+/** Physical update & collision handling */
+static gfmRV _player_internalUpdate() {
+    int x;
+    gfmRV rv;
+
+    rv = gfmSprite_update(pGlobal->pPlayer, pGame->pCtx);
+    ASSERT(rv == GFMRV_OK, rv);
+
+    /* Limit to world space */
+    gfmSprite_getHorizontalPosition(&x, pGlobal->pPlayer);
+    if (x <= 0) {
+        gfmSprite_setHorizontalPosition(pGlobal->pPlayer, 0);
+    }
+
+    rv = gfmQuadtree_collideSprite(pGlobal->pQt, pGlobal->pPlayer);
+    ASSERT(rv == GFMRV_QUADTREE_DONE || rv == GFMRV_QUADTREE_OVERLAPED, rv);
+    if (rv == GFMRV_QUADTREE_OVERLAPED) {
+        rv = collision_run();
+        ASSERT(rv == GFMRV_OK, rv);
+    }
+
+    rv = GFMRV_OK;
+__ret:
+    return rv;
+}
+
 
 gfmRV player_preUpdate() {
     double vx, vy;
-    int x;
     gfmRV rv;
     gfmCollision dir, lastDir;
+
+    /* NOTE: TARGET MUST HAVE PRECEDENCE OVER THE PLAYER!! */
+    gfmSprite_getCollision(&dir, pGlobal->pPlayer);
+    if ((dir & gfmCollision_down) && DID_JUST_PRESS(action)
+            && !pGlobal->didAct) {
+        pGlobal->didAct = 1;
+        /* If the player was carrying a lens, drop it */
+        if (pGlobal->playerLensIndex != -1) {
+            gfmSprite *pLens;
+
+            pLens = pGlobal->ppIndexedLens[pGlobal->playerLensIndex];
+            rv = lens_kill(pLens);
+            ASSERT(rv == GFMRV_OK, rv);
+            pGlobal->playerLensIndex = -1;
+            pGlobal->playerCurLens++;
+        }
+        else if (pGlobal->playerCurLens > 0) {
+            int isFlipped;
+            int x, y;
+
+            gfmSprite_getDirection(&isFlipped, pGlobal->pPlayer);
+            gfmSprite_getCenter(&x, &y, pGlobal->pPlayer);
+            if (isFlipped) {
+                x -= PLAYER_LENS_DISTX;
+            }
+            else {
+                x += PLAYER_LENS_DISTX;
+            }
+            x -= LENSES_WIDTH / 2;
+            y += PLAYER_LENS_DISTY - LENSES_HEIGHT / 2;
+
+            rv = lens_spawn(x, y, LENS_RIGHT);
+            ASSERT(rv == GFMRV_OK, rv);
+
+            pGlobal->playerLensIndex = pGlobal->lastLens;
+            pGlobal->playerCurLens--;
+        }
+    }
+
+    /** Skip the update, since the player can't move if holding a mirror */
+    if (pGlobal->playerLensIndex >= 0) {
+        gfmSprite_setHorizontalVelocity(pGlobal->pPlayer, 0.0);
+        return _player_internalUpdate();
+    }
 
     if (IS_PRESSED(left)) {
         vx = -PLAYER_VX;
@@ -78,23 +148,8 @@ gfmRV player_preUpdate() {
         gfmSprite_setVerticalAcceleration(pGlobal->pPlayer, DOWN_GRAV);
     }
 
-    rv = gfmSprite_update(pGlobal->pPlayer, pGame->pCtx);
-    ASSERT(rv == GFMRV_OK, rv);
-
-    /* Limit to world space */
-    gfmSprite_getHorizontalPosition(&x, pGlobal->pPlayer);
-    if (x <= 0) {
-        gfmSprite_setHorizontalPosition(pGlobal->pPlayer, 0);
-    }
-
-    rv = gfmQuadtree_collideSprite(pGlobal->pQt, pGlobal->pPlayer);
-    ASSERT(rv == GFMRV_QUADTREE_DONE || rv == GFMRV_QUADTREE_OVERLAPED, rv);
-    if (rv == GFMRV_QUADTREE_OVERLAPED) {
-        rv = collision_run();
-        ASSERT(rv == GFMRV_OK, rv);
-    }
-
-    rv = GFMRV_OK;
+    /* Physical update & collision handling */
+    rv = _player_internalUpdate();
 __ret:
     return rv;
 }
@@ -104,7 +159,12 @@ void player_postUpdate() {
 
     gfmSprite_getVelocity(&vx, &vy, pGlobal->pPlayer);
 
-    if (vx == 0.0 && vy == 0.0) {
+    if (0) {
+    }
+    else if (pGlobal->playerLensIndex != -1) {
+        gfmSprite_playAnimation(pGlobal->pPlayer, PL_HOLD);
+    }
+    else if (vx == 0.0 && vy == 0.0) {
         gfmSprite_playAnimation(pGlobal->pPlayer, PL_STAND);
     }
     else if (vy < 0.0) {

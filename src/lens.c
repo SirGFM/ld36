@@ -78,7 +78,7 @@ __ret:
 }
 
 gfmRV lens_kill(gfmSprite *pLens) {
-    int type, i;
+    int type;
     gfmRV rv;
     gfmGroupNode *pNode;
 
@@ -321,6 +321,8 @@ gfmRV lens_push(gfmSprite *pSpr) {
     gfmSprite_getChild(&tmp, &type, pSpr);
     type = (type & T_MASK) | (i << T_BITS);
     gfmSprite_setType(pSpr, type);
+
+    pGlobal->lastLens = i;
 
     rv = GFMRV_OK;
 __ret:

@@ -38,6 +38,9 @@ gfmRV playstate_init() {
     rv = torches_reset();
     ASSERT(rv == GFMRV_OK, rv);
     pGlobal->torchCount = 0;
+    pGlobal->playerLensIndex = -1;
+    pGlobal->playerMaxLens = 1;
+    pGlobal->playerCurLens = 1;
     memset(pGlobal->ppIndexedLens, 0x0, sizeof(gfmSprite*) * LENSES_LIST_LEN);
 
     /* Load Map & parallax */
@@ -104,6 +107,9 @@ gfmRV playstate_update() {
     int x, w, h;
     gfmRV rv;
 
+    pGlobal->didAct = 0;
+    pGlobal->lastLens = -1;
+
     rv = gfmTilemap_getDimension(&w, &h, pGlobal->pMap);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmQuadtree_initRoot(pGlobal->pQt, 0/*x*/, 0/*y*/, w, h
@@ -129,6 +135,8 @@ gfmRV playstate_update() {
     rv = torches_update();
     ASSERT(rv == GFMRV_OK, rv);
     rv = light_update();
+    ASSERT(rv == GFMRV_OK, rv);
+    rv = lenses_update();
     ASSERT(rv == GFMRV_OK, rv);
 
     rv = player_preUpdate();
@@ -161,6 +169,8 @@ gfmRV playstate_draw() {
     rv = torches_draw();
     ASSERT(rv == GFMRV_OK, rv);
     rv = player_draw();
+    ASSERT(rv == GFMRV_OK, rv);
+    rv = lenses_draw();
     ASSERT(rv == GFMRV_OK, rv);
     rv = light_draw();
     ASSERT(rv == GFMRV_OK, rv);

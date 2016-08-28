@@ -114,6 +114,9 @@ gfmRV collision_run() {
 
         fallthrough = 0;
         switch (orType) {
+            CASE(T_PLAYER, T_LIGHT) {
+                /* TODO Implement player/light interaction */
+            } break;
             CASE(T_TORCH_HEAD, T_LIGHT)
             CASE(T_TORCH_BOOT, T_LIGHT)
             CASE(T_TORCH_HAND, T_LIGHT) {
@@ -176,6 +179,8 @@ gfmRV collision_run() {
                 rv = lens_reflect(pLens, pLight);
             } break;
             IGNORE(T_LIGHT, T_SOURCE)
+            IGNORE(T_LENS, T_PLAYER)
+            IGNORE(T_LENS, T_FLOOR)
             IGNORE(T_LENS, T_SOURCE)
             IGNORE(T_LENS, T_TORCH_HEAD)
             IGNORE(T_LENS, T_TORCH_BOOT)

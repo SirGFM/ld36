@@ -226,6 +226,14 @@ struct stGlobalCtx {
 
     gfmSprite *pPlayer;
     int playerAnim;
+    int playerLensIndex;
+    int playerCurLens;
+    int playerMaxLens;
+    /** Whether an action (through the 'action' button) was taken this turn */
+    int didAct;
+
+    /* Index of the last pushed lens */
+    int lastLens;
 
     int torchCount;
 

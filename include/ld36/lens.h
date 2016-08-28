@@ -44,5 +44,15 @@ gfmRV lenses_update();
 /** Render the particles */
 gfmRV lenses_draw();
 
+/**
+ * Store a lens into the array. It's used to associate a lens with a target
+ */
+gfmRV lens_push(gfmSprite *pSpr);
+
+/**
+ * Remove the stored lens.
+ */
+gfmRV lens_pop(gfmSprite *pLens);
+
 #endif /* __LENS_H__ */
 
