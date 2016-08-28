@@ -41,7 +41,7 @@ gfmRV lenses_init() {
             , gfmCollisionQuality_collideEverything);
     ASSERT(rv == GFMRV_OK, rv);
 
-    rv = gfmGroup_preCache(pGlobal->pLenses, LENSES_LEN,LENSES_LEN);
+    rv = gfmGroup_preCache(pGlobal->pLenses, LENSES_LIST_LEN, LENSES_LIST_LEN);
     ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;
@@ -85,24 +85,66 @@ __ret:
     return rv;
 }
 
+
+static int lens_checkCollision(gfmSprite *pLens, gfmSprite *pLight) {
+    int lens_x, lens_y;
+    int light_x, light_y;
+    int x, y, type;
+
+    gfmSprite_getCenter(&light_x, &light_y, pLight);
+    gfmSprite_getCenter(&lens_x, &lens_y, pLens);
+
+    x = light_x - lens_x;
+    y = light_y - lens_y;
+#define SQR_DIST ((LIGHT_RADIUS + LENS_RADIUS) * (LIGHT_RADIUS + LENS_RADIUS))
+    if (x * x + y * y > SQR_DIST) {
+        return 0;
+    }
+#undef SQR_DIST
+
+    gfmSprite_getFrame(&type, pLens);
+    switch (type) {
+        case LENS_DOWNWARD: {
+            if (light_x > lens_x + LENS_RADIUS
+                    || light_x < lens_x - LENS_RADIUS) {
+                return 0;
+            }
+            if (lens_y > light_y + LIGHT_RADIUS
+                    || lens_y < light_y - LIGHT_RADIUS) {
+                return 0;
+            }
+        } break;
+        case LENS_45:
+        case LENS_135:
+        case LENS_60: {
+#define WRONG_DIST (LIGHT_RADIUS + LENS_RADIUS / 1.75)
+#define SQR_DIST (WRONG_DIST * WRONG_DIST)
+            if (x * x + y * y > SQR_DIST) {
+                return 0;
+            }
+#undef SQR_DIST
+#undef WRONG_DIST
+        } break;
+        default: {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
 /**
  * Reflect a light source through a lens
  */
 gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
-    int centerX, centerY, dstX, dstY, lastX, lastY, type, x, y;
+    int dstX, dstY, type, x, y;
     gfmRV rv;
     gfmGroupNode *pNode;
 
-    /* TODO Ensure that an overlap happened */
-
-    /* Calculate the moving direction */
-    rv = gfmSprite_getCenter(&centerX, &centerY, pLight);
-    ASSERT(rv == GFMRV_OK, rv);
-    rv = gfmSprite_getLastCenter(&lastX, &lastY, pLight);
-    ASSERT(rv == GFMRV_OK, rv);
-
-    rv = gfmSprite_getPosition(&x, &y, pLight);
-    ASSERT(rv == GFMRV_OK, rv);
+    /* Ensure that an overlap happened */
+    if (!lens_checkCollision(pLens, pLight)) {
+        return GFMRV_OK;
+    }
 
     /* Remove the last light, to spawn a new one */
     rv = gfmSprite_getChild((void**)&pNode, &type, pLight);
@@ -110,9 +152,46 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
     rv = gfmGroup_removeNode(pNode);
     ASSERT(rv == GFMRV_OK, rv);
 
-    /* TODO Calculate the correct destination */
-    dstX = x + centerY - lastY;
-    dstY = y + centerX - lastX;
+    /* Put x, y (light position) exactly above the lens */
+    rv = gfmSprite_getCenter(&x, &y, pLens);
+    ASSERT(rv == GFMRV_OK, rv);
+    x -= LIGHT_RADIUS;
+    y -= LIGHT_RADIUS;
+
+    /* Calculate the correct destination */
+    rv = gfmSprite_getFrame(&type, pLens);
+    ASSERT(rv == GFMRV_OK, rv);
+
+#define EXTRA_DISTANCE 1
+    switch (type) {
+        case LENS_DOWNWARD: {
+            y += LIGHT_RADIUS + EXTRA_DISTANCE;
+            dstX = x;
+            dstY = y + EXTRA_DISTANCE;
+        } break;
+        case LENS_45: {
+            x += LIGHT_RADIUS + EXTRA_DISTANCE;
+            y += LIGHT_RADIUS + EXTRA_DISTANCE;
+            dstX = x + EXTRA_DISTANCE;
+            dstY = y + EXTRA_DISTANCE;
+        } break;
+        case LENS_135: {
+            x += LIGHT_RADIUS + EXTRA_DISTANCE;
+            y -= LIGHT_RADIUS - EXTRA_DISTANCE;
+            dstX = x + EXTRA_DISTANCE;
+            dstY = y - EXTRA_DISTANCE;
+        } break;
+        case LENS_60: {
+            x += LIGHT_RADIUS + EXTRA_DISTANCE;
+            y += LIGHT_RADIUS + EXTRA_DISTANCE;
+            dstX = x + 3;
+            dstY = y + 4;
+        } break;
+        default: {
+            return GFMRV_FUNCTION_FAILED;
+        }
+    }
+#undef EXTRA_DISTANCE
 
     rv = light_spawn(x, y, dstX, dstY);
     ASSERT(rv == GFMRV_OK, rv);

@@ -87,7 +87,8 @@
 #define LIGHT_COOLDOWN  (1000 * LIGHT_RADIUS * LIGHT_DISTANCE_IN_RADIUS \
                         / LIGHT_VELOCITY)
 
-#define LENSES_LEN      32
+#define LENSES_LIST_LEN 32
+#define LENS_RADIUS     10
 #define LENSES_WIDTH    16
 #define LENSES_HEIGHT   16
 #define LENSES_OFFX     -8

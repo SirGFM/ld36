@@ -102,12 +102,22 @@ gfmRV collision_run() {
   case ((type2) | (type1 << 16)):
         switch (orType) {
             CASE(T_LENS, T_LIGHT) {
+                int type;
+                gfmSprite *pLens, *pLight;
+
                 if (isFirstCase) {
-                    rv = lens_reflect((gfmSprite*)pChild1, (gfmSprite*)pChild2);
+                    rv = gfmObject_getChild((void**)&pLens, &type, pObj1);
+                    ASSERT(rv == GFMRV_OK, rv);
+                    rv = gfmObject_getChild((void**)&pLight, &type, pObj2);
+                    ASSERT(rv == GFMRV_OK, rv);
                 }
                 else {
-                    rv = lens_reflect((gfmSprite*)pChild2, (gfmSprite*)pChild1);
+                    rv = gfmObject_getChild((void**)&pLens, &type, pObj2);
+                    ASSERT(rv == GFMRV_OK, rv);
+                    rv = gfmObject_getChild((void**)&pLight, &type, pObj1);
+                    ASSERT(rv == GFMRV_OK, rv);
                 }
+                rv = lens_reflect(pLens, pLight);
             } break;
             IGNORE(T_LIGHT, T_SOURCE)
             IGNORE(T_LENS, T_SOURCE)

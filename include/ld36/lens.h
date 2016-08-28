@@ -12,7 +12,8 @@
 #include <GFraMe/gfmSprite.h>
 
 enum enLensFrame {
-    LENS_HORIZONTAL = 8,
+    LENS_DOWNWARD = 8,
+    LENS_135,
     LENS_45,
     LENS_60
 };
