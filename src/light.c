@@ -42,8 +42,8 @@ gfmRV light_init() {
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmGroup_setDefAnimData(pGlobal->pLight, _light_data, _light_data_len);
     ASSERT(rv == GFMRV_OK, rv);
-    rv = gfmGroup_setDefDimensions(pGlobal->pLight, 8/*w*/, 8/*h*/, -4/*offx*/
-            , -4/*offy*/);
+    rv = gfmGroup_setDefDimensions(pGlobal->pLight, LIGHT_RADIUS * 2/*w*/
+            , LIGHT_RADIUS * 2/*h*/, LIGHT_OFFX, LIGHT_OFFY);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmGroup_setDeathOnLeave(pGlobal->pLight, 0/*dontDie*/);
     ASSERT(rv == GFMRV_OK, rv);
