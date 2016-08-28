@@ -64,6 +64,14 @@ gfmRV input_updateButtons() {
     /* Update the 'manual stepper' */
     rv = input_updateDebugButtons();
     ASSERT(rv == GFMRV_OK, rv);
+
+    if ((pButton->gif.state & gfmInput_justReleased) == gfmInput_justReleased) {
+        rv = gfm_didExportGif(pGame->pCtx);
+        if (rv == GFMRV_TRUE || rv == GFMRV_GIF_OPERATION_NOT_ACTIVE) {
+            rv = gfm_recordGif(pGame->pCtx, 5000/*ms*/, "anim.gif", 8, 0);
+            ASSERT(rv == GFMRV_OK, rv);
+        }
+    }
 #endif
 
     /* TODO Add actions that should be triggered as soon as key are pressed */
@@ -130,6 +138,7 @@ gfmRV input_init() {
 
     ADD_KEY(fullscreen);
 #if defined(DEBUG)
+    ADD_KEY(gif);
     ADD_KEY(qt);
     ADD_KEY(dbgPause);
     ADD_KEY(dbgStep);
@@ -157,6 +166,7 @@ gfmRV input_init() {
     BIND_KEY(qt, gfmKey_f11);
     BIND_KEY(dbgPause, gfmKey_f5);
     BIND_KEY(dbgStep, gfmKey_f6);
+    BIND_KEY(gif, gfmKey_f9);
 #endif
     BIND_KEY(spawn, gfmPointer_button);
     BIND_KEY(up, gfmKey_w);
