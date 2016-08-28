@@ -58,10 +58,8 @@ gfmRV lenses_reset() {
 }
 
 gfmRV lens_spawn(int x, int y, lensFrame frame) {
-    void *tmp;
     gfmSprite *pSpr;
     gfmRV rv;
-    int i, type;
 
     rv = gfmGroup_recycle(&pSpr, pGlobal->pLenses);
     ASSERT(rv == GFMRV_OK, rv);
@@ -71,20 +69,8 @@ gfmRV lens_spawn(int x, int y, lensFrame frame) {
     rv = gfmSprite_setFrame(pSpr, frame);
     ASSERT(rv == GFMRV_OK, rv);
 
-    i = 0;
-    while (i < LENSES_LIST_LEN) {
-        if (pGlobal->ppIndexedLens[i] == 0) {
-            break;
-        }
-        i++;
-    }
-    ASSERT(i < LENSES_LIST_LEN, GFMRV_FUNCTION_FAILED);
-
-    /** Store the lens index on its type */
-    pGlobal->ppIndexedLens[i] = pSpr;
-    gfmSprite_getChild(&tmp, &type, pSpr);
-    type = (type & T_MASK) | (i << T_BITS);
-    gfmSprite_setType(pSpr, type);
+    rv = lens_push(pSpr);
+    ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;
 __ret:
@@ -101,12 +87,8 @@ gfmRV lens_kill(gfmSprite *pLens) {
     rv = gfmGroup_removeNode(pNode);
     ASSERT(rv == GFMRV_OK, rv);
 
-    i = type >> T_BITS;
-    ASSERT(pGlobal->ppIndexedLens[i] == pLens, GFMRV_FUNCTION_FAILED);
-    pGlobal->ppIndexedLens[i] = 0;
-
-    type &= T_MASK;
-    gfmSprite_setType(pLens, type);
+    rv = lens_pop(pLens);
+    ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;
 __ret:
@@ -312,6 +294,56 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
 
     rv = light_spawn(x, y, dstX, dstY);
     ASSERT(rv == GFMRV_OK, rv);
+
+    rv = GFMRV_OK;
+__ret:
+    return rv;
+}
+
+/**
+ * Store a lens into the array. It's used to associate a lens with a target
+ */
+gfmRV lens_push(gfmSprite *pSpr) {
+    void *tmp;
+    int i, type;
+    gfmRV rv;
+
+    i = 0;
+    while (i < LENSES_LIST_LEN) {
+        if (pGlobal->ppIndexedLens[i] == 0) {
+            break;
+        }
+        i++;
+    }
+    ASSERT(i < LENSES_LIST_LEN, GFMRV_FUNCTION_FAILED);
+
+    pGlobal->ppIndexedLens[i] = pSpr;
+    gfmSprite_getChild(&tmp, &type, pSpr);
+    type = (type & T_MASK) | (i << T_BITS);
+    gfmSprite_setType(pSpr, type);
+
+    rv = GFMRV_OK;
+__ret:
+    return rv;
+}
+
+/**
+ * Remove the stored lens.
+ */
+gfmRV lens_pop(gfmSprite *pLens) {
+    void *tmp;
+    int type, i;
+    gfmRV rv;
+
+    rv = gfmSprite_getChild(&tmp, &type, pLens);
+    ASSERT(rv == GFMRV_OK, rv);
+
+    i = type >> T_BITS;
+    ASSERT(pGlobal->ppIndexedLens[i] == pLens, GFMRV_FUNCTION_FAILED);
+    pGlobal->ppIndexedLens[i] = 0;
+
+    type &= T_MASK;
+    gfmSprite_setType(pLens, type);
 
     rv = GFMRV_OK;
 __ret:
