@@ -213,7 +213,7 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
     rv = gfmSprite_getFrame(&type, pLens);
     ASSERT(rv == GFMRV_OK, rv);
 
-#define EXTRA_DISTANCE 1
+#define EXTRA_DISTANCE 2
     switch (type) {
         case LENS_DOWN: {
             y += LIGHT_RADIUS + EXTRA_DISTANCE;
@@ -247,13 +247,13 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
         case LENS_135: {
             if (isLeft) {
                 x += LIGHT_RADIUS + EXTRA_DISTANCE;
-                y -= LIGHT_RADIUS - EXTRA_DISTANCE;
+                y -= LIGHT_RADIUS + EXTRA_DISTANCE;
                 dstX = x + 1;
                 dstY = y - 1;
             }
             else {
                 x -= LIGHT_RADIUS + EXTRA_DISTANCE;
-                y += LIGHT_RADIUS - EXTRA_DISTANCE;
+                y += LIGHT_RADIUS + EXTRA_DISTANCE;
                 dstX = x - 1;
                 dstY = y + 1;
             }
