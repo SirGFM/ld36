@@ -105,6 +105,8 @@ gfmRV playstate_init() {
     rv = gfmTilemap_getDimension(&pGlobal->worldWidth, &pGlobal->worldHeight
             , pGlobal->pMap);
     ASSERT(rv == GFMRV_OK, rv);
+    /* TODO Correctly get this value */
+    pGlobal->worldWidth = 108 * 8;
 
     rv = gfm_getCamera(&pGlobal->pCamera, pGame->pCtx);
     ASSERT(rv == GFMRV_OK, rv);
