@@ -102,6 +102,11 @@ gfmRV collision_run() {
   case ((type1) | (type2 << 16)): \
   case ((type2) | (type1 << 16)):
         switch (orType) {
+            CASE(T_LIGHT, T_TORCH_HEAD)
+            CASE(T_LIGHT, T_TORCH_BOOT)
+            CASE(T_LIGHT, T_TORCH_HAND) {
+                /* TODO Implement collision betweeb torch & light particle */
+            } break;
             CASE(T_PLAYER, T_FLOOR) {
                 gfmObject *pFloor;
 
@@ -145,6 +150,27 @@ gfmRV collision_run() {
             } break;
             IGNORE(T_LIGHT, T_SOURCE)
             IGNORE(T_LENS, T_SOURCE)
+            IGNORE(T_LENS, T_TORCH_HEAD)
+            IGNORE(T_LENS, T_TORCH_BOOT)
+            IGNORE(T_LENS, T_TORCH_HAND)
+            IGNORE(T_LENS, T_TORCH_HEAD_LIT)
+            IGNORE(T_LENS, T_TORCH_BOOT_LIT)
+            IGNORE(T_LENS, T_TORCH_HAND_LIT)
+            IGNORE(T_PLAYER, T_TORCH_HEAD)
+            IGNORE(T_PLAYER, T_TORCH_BOOT)
+            IGNORE(T_PLAYER, T_TORCH_HAND)
+            IGNORE(T_PLAYER, T_TORCH_HEAD_LIT)
+            IGNORE(T_PLAYER, T_TORCH_BOOT_LIT)
+            IGNORE(T_PLAYER, T_TORCH_HAND_LIT)
+            IGNORE(T_LIGHT, T_TORCH_HEAD_LIT)
+            IGNORE(T_LIGHT, T_TORCH_BOOT_LIT)
+            IGNORE(T_LIGHT, T_TORCH_HAND_LIT)
+            IGNORE(T_FLOOR, T_TORCH_HEAD)
+            IGNORE(T_FLOOR, T_TORCH_BOOT)
+            IGNORE(T_FLOOR, T_TORCH_HAND)
+            IGNORE(T_FLOOR, T_TORCH_HEAD_LIT)
+            IGNORE(T_FLOOR, T_TORCH_BOOT_LIT)
+            IGNORE(T_FLOOR, T_TORCH_HAND_LIT)
             IGNORESIMPLE(T_LIGHT)
             IGNORESIMPLE(T_SOURCE)
             IGNORESIMPLE(T_LENS)

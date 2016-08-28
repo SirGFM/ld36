@@ -33,6 +33,7 @@ gfmRV assets_load() {
     ASSERT(rv == GFMRV_OK, rv);
     GEN_SPRITESET(8, 8, pGfx->texHandle)
     GEN_SPRITESET(16, 16, pGfx->texHandle)
+    GEN_SPRITESET(16, 32, pGfx->texHandle)
     GEN_SPRITESET(32, 32, pGfx->texHandle)
 
     rv = GFMRV_OK;

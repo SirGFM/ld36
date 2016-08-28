@@ -27,6 +27,8 @@ gfmRV lenses_init();
 
 void lenses_clean();
 
+gfmRV lenses_reset();
+
 gfmRV lens_spawn(int x, int y, lensFrame frame);
 
 gfmRV lens_kill(gfmSprite *pLens);

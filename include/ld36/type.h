@@ -27,8 +27,17 @@ enum enType {
     T_LENS = gfmType_reserved_2, /* pink */
     T_LIGHT = gfmType_reserved_4, /* green */
     T_FLOOR = gfmType_reserved_5, /* purple */
+    T_TORCH  = gfmType_reserved_6, /* yellow */
     T_PLAYER = gfmType_reserved_7, /* light red */
     T_SOURCE = gfmType_reserved_11,  /* white */
+
+
+    T_TORCH_HEAD     = (1 << T_NBITS) | T_TORCH,
+    T_TORCH_HEAD_LIT = (2 << T_NBITS) | T_TORCH,
+    T_TORCH_BOOT     = (3 << T_NBITS) | T_TORCH,
+    T_TORCH_BOOT_LIT = (4 << T_NBITS) | T_TORCH,
+    T_TORCH_HAND     = (5 << T_NBITS) | T_TORCH,
+    T_TORCH_HAND_LIT = (6 << T_NBITS) | T_TORCH
 };
 typedef enum enType type;
 

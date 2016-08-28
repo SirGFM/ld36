@@ -36,6 +36,9 @@
  <tileset firstgid="1665" name="atlas-32x32" tilewidth="32" tileheight="32" tilecount="64" columns="8">
   <image source="../../gfx/atlas.bmp" trans="ff00ff" width="256" height="256"/>
  </tileset>
+ <tileset firstgid="1729" name="atlas-32x64" tilewidth="32" tileheight="64" tilecount="32" columns="8">
+  <image source="../../gfx/atlas.bmp" trans="ff00ff" width="256" height="256"/>
+ </tileset>
  <layer name="parallax" width="60" height="15">
   <data encoding="csv">
 284,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -76,7 +79,11 @@
  </layer>
  <objectgroup name="objects">
   <object id="1" name="player" type="player" gid="1345" x="16" y="97" width="16" height="16"/>
-  <object id="2" name="head_torch" type="torch" gid="1689" x="120" y="69" width="32" height="32"/>
+  <object id="2" name="head_torch" type="torch" gid="1689" x="120" y="69" width="32" height="32">
+   <properties>
+    <property name="part" value="head"/>
+   </properties>
+  </object>
   <object id="4" name="target" type="target" gid="1152" x="37" y="44" width="8" height="32"/>
  </objectgroup>
 </map>

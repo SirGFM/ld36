@@ -12,6 +12,7 @@
 
 #include <ld36/lens.h>
 #include <ld36/light.h>
+#include <ld36/torch.h>
 
 /** Store data related to game */
 gameCtx *pGame = 0;
@@ -76,6 +77,8 @@ gfmRV global_initUserVar() {
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmSprite_getNew(&pGlobal->pPlayer);
     ASSERT(rv == GFMRV_OK, rv);
+    rv = torches_init();
+    ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;
 __ret:
@@ -92,6 +95,7 @@ void global_freeUserVar() {
 
     gfmQuadtree_free(&(pGlobal->pQt));
 
+    torches_clean();
     gfmSprite_free(&pGlobal->pPlayer);
     gfmTilemap_free(&pGlobal->pMap);
     gfmTilemap_free(&pGlobal->pParallax);

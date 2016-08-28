@@ -114,5 +114,9 @@
 #define PLAYER_VX       (((double)TILE_SIZE) * PLAYER_TILES_PER_SEC)
 #define PLAYER_JUMP     -165
 
+#define MAX_TORCHES     10
+#define TORCH_WIDTH     8
+#define TORCH_HEIGHT    8
+
 #endif /* __GAME_CONST_H__ */
 

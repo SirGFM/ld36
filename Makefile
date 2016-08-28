@@ -14,7 +14,8 @@
           $(OBJDIR)/main.o \
           $(OBJDIR)/player.o \
           $(OBJDIR)/playground.o \
-          $(OBJDIR)/playstate.o
+          $(OBJDIR)/playstate.o \
+          $(OBJDIR)/torch.o
 #=======================================================================
 
 #=======================================================================

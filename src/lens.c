@@ -53,6 +53,10 @@ void lenses_clean() {
     gfmGroup_free(&pGlobal->pLenses);
 }
 
+gfmRV lenses_reset() {
+    return gfmGroup_killAll(pGlobal->pLenses);
+}
+
 gfmRV lens_spawn(int x, int y, lensFrame frame) {
     gfmRV rv;
     gfmSprite *pSpr;

@@ -7,9 +7,14 @@
 #include <GFraMe/gfmError.h>
 #include <GFraMe/gfmParser.h>
 
+#include <ld36/lens.h>
+#include <ld36/light.h>
 #include <ld36/player.h>
 #include <ld36/playstate.h>
+#include <ld36/torch.h>
 #include <ld36/type.h>
+
+#include <string.h>
 
 static char *_mapKeys[] = {
     "floor"
@@ -24,6 +29,13 @@ static const int _mapDictLen = sizeof(_mapValues) / sizeof(int);
 gfmRV playstate_init() {
     gfmParser *pParser = 0;
     gfmRV rv;
+
+    rv = lenses_reset();
+    ASSERT(rv == GFMRV_OK, rv);
+    rv = light_reset();
+    ASSERT(rv == GFMRV_OK, rv);
+    rv = torches_reset();
+    ASSERT(rv == GFMRV_OK, rv);
 
     /* Load Map & parallax */
     rv = gfmTilemap_init(pGlobal->pMap, pGfx->pSset8x8, MAP_WIDTH, MAP_HEIGHT
@@ -65,6 +77,7 @@ gfmRV playstate_init() {
             rv = player_init(pParser);
         }
         else if (IS_TYPE("torch")) {
+            rv = torch_spawn(pParser);
         }
         else if (IS_TYPE("target")) {
         }
@@ -95,6 +108,9 @@ gfmRV playstate_update() {
     rv = gfmQuadtree_populateTilemap(pGlobal->pQt, pGlobal->pMap);
     ASSERT(rv == GFMRV_OK, rv);
 
+    rv = torches_update();
+    ASSERT(rv == GFMRV_OK, rv);
+
     rv = player_preUpdate();
     ASSERT(rv == GFMRV_OK, rv);
 
@@ -122,6 +138,8 @@ gfmRV playstate_draw() {
     rv = gfmTilemap_draw(pGlobal->pMap, pGame->pCtx);
     ASSERT(rv == GFMRV_OK, rv);
 
+    rv = torches_draw();
+    ASSERT(rv == GFMRV_OK, rv);
     rv = player_draw();
     ASSERT(rv == GFMRV_OK, rv);
 
