@@ -39,6 +39,9 @@
  <tileset firstgid="1729" name="atlas-32x64" tilewidth="32" tileheight="64" tilecount="32" columns="8">
   <image source="../../gfx/atlas.bmp" trans="ff00ff" width="256" height="256"/>
  </tileset>
+ <tileset firstgid="1761" name="atlas-64x32" tilewidth="64" tileheight="32" tilecount="32" columns="4">
+  <image source="../../gfx/atlas.bmp" trans="ff00ff" width="256" height="256"/>
+ </tileset>
  <layer name="parallax" width="60" height="15">
   <data encoding="csv">
 284,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

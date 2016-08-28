@@ -131,6 +131,10 @@ struct stGfxCtx {
     gfmSpriteset *pSset16x32;
     /** 32x32 spriteset of the main texture */
     gfmSpriteset *pSset32x32;
+    /** 64x32 spriteset of the main texture */
+    gfmSpriteset *pSset64x32;
+    /** 32x64 spriteset of the main texture */
+    gfmSpriteset *pSset32x64;
     /** Handle of the main texture atlas */
     int texHandle;
 };
