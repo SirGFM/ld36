@@ -253,6 +253,8 @@ struct stGlobalCtx {
     lensFrame curLensDir;
     gfmCamera *pCamera;
 
+    double endX;
+
     /** Store lenses as they are recycled (since they aren't retrieveable from
      * the current API */
     gfmSprite *ppIndexedLens[LENSES_LIST_LEN];

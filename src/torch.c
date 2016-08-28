@@ -183,7 +183,13 @@ void torch_onCollideLight(gfmSprite *pSelf) {
             } break;
         }
 
+        pGlobal->torchCount--;
         gfmSprite_playAnimation(pSelf, anim);
+
+        if (pGlobal->torchCount <= 0) {
+            /*ASJDGASGKJ*/
+            pGlobal->endX  = 0;
+        }
     }
     else {
         type |= power << T_BITS;

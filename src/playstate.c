@@ -39,6 +39,8 @@ gfmRV playstate_init() {
     ASSERT(rv == GFMRV_OK, rv);
     rv = torches_reset();
     ASSERT(rv == GFMRV_OK, rv);
+    rv = targets_reset();
+    ASSERT(rv == GFMRV_OK, rv);
     pGlobal->torchCount = 0;
     pGlobal->playerLensIndex = -1;
     pGlobal->playerMaxLens = 1;
@@ -186,6 +188,10 @@ gfmRV playstate_update() {
 
     player_postUpdate();
 
+    if (pGlobal->torchCount <= 0) {
+        pGlobal->endX += 180.0 * pGame->elapsed / 1000.0;
+    }
+
     rv = GFMRV_OK;
 __ret:
     return rv;
@@ -205,14 +211,36 @@ gfmRV playstate_draw() {
 
     rv = targets_draw();
     ASSERT(rv == GFMRV_OK, rv);
-    rv = torches_draw();
-    ASSERT(rv == GFMRV_OK, rv);
+
+    if (pGlobal->torchCount > 0) {
+        rv = torches_draw();
+        ASSERT(rv == GFMRV_OK, rv);
+    }
+
     rv = player_draw();
     ASSERT(rv == GFMRV_OK, rv);
     rv = lenses_draw();
     ASSERT(rv == GFMRV_OK, rv);
     rv = light_draw();
     ASSERT(rv == GFMRV_OK, rv);
+
+    if (pGlobal->torchCount <= 0) {
+#define DRAW_END(x, y, sset, tile) \
+    rv = gfm_drawTile(pGame->pCtx, pGfx->sset, x + (int)pGlobal->endX, y \
+            , tile, 1/*flip*/); \
+    ASSERT(rv == GFMRV_OK, rv)
+
+        /* HEAD */
+        DRAW_END(-32, 30, pSset32x64, 11);
+        /* BACK HAND */
+        DRAW_END(-72, 40, pSset16x32, 60);
+        /* FRONT HAND */
+        DRAW_END(-120, 28, pSset16x32, 60);
+        /* FRONT BOOT */
+        DRAW_END(-160, 60, pSset32x32, 29);
+        /* BACK BOOT */
+        DRAW_END(-210, 70, pSset32x32, 28);
+    }
 
     rv = GFMRV_OK;
 __ret:

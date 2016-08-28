@@ -140,6 +140,10 @@ gfmRV player_preUpdate() {
         gfmSprite_setHorizontalVelocity(pGlobal->pPlayer, 0.0);
         return _player_internalUpdate();
     }
+    if ( pGlobal->torchCount <= 0) {
+        gfmSprite_setHorizontalVelocity(pGlobal->pPlayer, 0.0);
+        return _player_internalUpdate();
+    }
 
     if (IS_PRESSED(left)) {
         vx = -PLAYER_VX;
