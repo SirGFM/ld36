@@ -13,6 +13,7 @@
 #include <ld36/playstate.h>
 #include <ld36/torch.h>
 #include <ld36/type.h>
+#include <ld36/ui.h>
 
 #include <string.h>
 
@@ -42,6 +43,8 @@ gfmRV playstate_init() {
     pGlobal->playerMaxLens = 1;
     pGlobal->playerCurLens = 1;
     memset(pGlobal->ppIndexedLens, 0x0, sizeof(gfmSprite*) * LENSES_LIST_LEN);
+
+    pGlobal->curLensDir = LENS_DOWN;
 
     /* Load Map & parallax */
     rv = gfmTilemap_init(pGlobal->pMap, pGfx->pSset8x8, MAP_WIDTH, MAP_HEIGHT
@@ -110,6 +113,21 @@ gfmRV playstate_update() {
     pGlobal->didAct = 0;
     pGlobal->lastLens = -1;
 
+    /* Check if should cycle the lens direction */
+    if (DID_JUST_PRESS(cycleLeft)) {
+        pGlobal->curLensDir--;
+    }
+    if (DID_JUST_PRESS(cycleRight)) {
+        pGlobal->curLensDir++;
+    }
+    /* Cap the current lens direction */
+    if (pGlobal->curLensDir <= LENS_MIN) {
+        pGlobal->curLensDir = LENS_MAX - 1;
+    }
+    else if (pGlobal->curLensDir >= LENS_MAX) {
+        pGlobal->curLensDir = LENS_MIN + 1;
+    }
+
     rv = gfmTilemap_getDimension(&w, &h, pGlobal->pMap);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmQuadtree_initRoot(pGlobal->pQt, 0/*x*/, 0/*y*/, w, h
@@ -173,6 +191,9 @@ gfmRV playstate_draw() {
     rv = lenses_draw();
     ASSERT(rv == GFMRV_OK, rv);
     rv = light_draw();
+    ASSERT(rv == GFMRV_OK, rv);
+
+    rv = ui_draw();
     ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;

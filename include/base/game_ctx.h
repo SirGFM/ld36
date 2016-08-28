@@ -9,6 +9,7 @@
 #include <base/game_const.h>
 #include <base/state.h>
 
+#include <ld36/lens.h>
 #include <ld36/light_source.h>
 
 #include <GFraMe/gframe.h>
@@ -236,6 +237,8 @@ struct stGlobalCtx {
     int lastLens;
 
     int torchCount;
+
+    lensFrame curLensDir;
 
     /** Store lenses as they are recycled (since they aren't retrieveable from
      * the current API */

@@ -19,7 +19,9 @@ enum enLensFrame {
     LENS_45,
     LENS_60,
     LENS_RIGHT,
-    LENS_MAX
+    LENS_MAX,
+
+    LENS_MIN = LENS_LEFT-1
 };
 typedef enum enLensFrame lensFrame;
 
