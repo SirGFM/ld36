@@ -160,7 +160,7 @@ static int lens_checkCollision(gfmSprite *pLens, gfmSprite *pLight) {
  * Reflect a light source through a lens
  */
 gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
-    int dstX, dstY, type, x, y;
+    int dstX, dstY, isLeft, type, x, y;
     gfmRV rv;
     gfmGroupNode *pNode;
 
@@ -175,9 +175,15 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
     rv = gfmGroup_removeNode(pNode);
     ASSERT(rv == GFMRV_OK, rv);
 
-    /* Put x, y (light position) exactly above the lens */
+    /* Check the direction the ligth is moving into the lens */
+    rv = gfmSprite_getCenter(&dstX, &dstY, pLight);
+    ASSERT(rv == GFMRV_OK, rv);
     rv = gfmSprite_getCenter(&x, &y, pLens);
     ASSERT(rv == GFMRV_OK, rv);
+
+    isLeft = dstX < x;
+
+    /* Put x, y (light position) exactly above the lens */
     x -= LIGHT_RADIUS;
     y -= LIGHT_RADIUS;
 
@@ -190,25 +196,49 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
         case LENS_DOWNWARD: {
             y += LIGHT_RADIUS + EXTRA_DISTANCE;
             dstX = x;
-            dstY = y + EXTRA_DISTANCE;
+            dstY = y + 1;
         } break;
         case LENS_45: {
-            x += LIGHT_RADIUS + EXTRA_DISTANCE;
-            y += LIGHT_RADIUS + EXTRA_DISTANCE;
-            dstX = x + EXTRA_DISTANCE;
-            dstY = y + EXTRA_DISTANCE;
+            if (isLeft) {
+                x += LIGHT_RADIUS + EXTRA_DISTANCE;
+                y += LIGHT_RADIUS + EXTRA_DISTANCE;
+                dstX = x + 1;
+                dstY = y + 1;
+            }
+            else {
+                x -= LIGHT_RADIUS + EXTRA_DISTANCE;
+                y -= LIGHT_RADIUS + EXTRA_DISTANCE;
+                dstX = x - 1;
+                dstY = y - 1;
+            }
         } break;
         case LENS_135: {
-            x += LIGHT_RADIUS + EXTRA_DISTANCE;
-            y -= LIGHT_RADIUS - EXTRA_DISTANCE;
-            dstX = x + EXTRA_DISTANCE;
-            dstY = y - EXTRA_DISTANCE;
+            if (isLeft) {
+                x += LIGHT_RADIUS + EXTRA_DISTANCE;
+                y -= LIGHT_RADIUS - EXTRA_DISTANCE;
+                dstX = x + 1;
+                dstY = y - 1;
+            }
+            else {
+                x -= LIGHT_RADIUS + EXTRA_DISTANCE;
+                y += LIGHT_RADIUS - EXTRA_DISTANCE;
+                dstX = x - 1;
+                dstY = y + 1;
+            }
         } break;
         case LENS_60: {
-            x += LIGHT_RADIUS + EXTRA_DISTANCE;
-            y += LIGHT_RADIUS + EXTRA_DISTANCE;
-            dstX = x + 3;
-            dstY = y + 4;
+            if (isLeft) {
+                x += LIGHT_RADIUS + EXTRA_DISTANCE;
+                y += LIGHT_RADIUS + EXTRA_DISTANCE;
+                dstX = x + 3;
+                dstY = y + 4;
+            }
+            else {
+                x -= LIGHT_RADIUS + EXTRA_DISTANCE;
+                y -= LIGHT_RADIUS + EXTRA_DISTANCE;
+                dstX = x - 3;
+                dstY = y - 4;
+            }
         } break;
         default: {
             return GFMRV_FUNCTION_FAILED;
