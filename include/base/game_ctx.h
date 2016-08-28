@@ -13,6 +13,7 @@
 #include <ld36/light_source.h>
 
 #include <GFraMe/gframe.h>
+#include <GFraMe/gfmCamera.h>
 #include <GFraMe/gfmGenericArray.h>
 #include <GFraMe/gfmGroup.h>
 #include <GFraMe/gfmInput.h>
@@ -242,7 +243,11 @@ struct stGlobalCtx {
 
     int torchCount;
 
+    int worldWidth;
+    int worldHeight;
+
     lensFrame curLensDir;
+    gfmCamera *pCamera;
 
     /** Store lenses as they are recycled (since they aren't retrieveable from
      * the current API */

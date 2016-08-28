@@ -98,6 +98,20 @@ gfmRV playstate_init() {
 #undef IS_TYPE
     }
 
+    rv = gfmTilemap_getDimension(&pGlobal->worldWidth, &pGlobal->worldHeight
+            , pGlobal->pMap);
+    ASSERT(rv == GFMRV_OK, rv);
+
+    rv = gfm_getCamera(&pGlobal->pCamera, pGame->pCtx);
+    ASSERT(rv == GFMRV_OK, rv);
+    rv = gfmCamera_setWorldDimensions(pGlobal->pCamera, pGlobal->worldWidth
+            , pGlobal->worldHeight);
+    ASSERT(rv == GFMRV_OK, rv);
+    rv = gfmCamera_setDeadzone(pGlobal->pCamera, DEADZONE_X, DEADZONE_Y
+            , DEADZONE_W, DEADZONE_H);
+    ASSERT(rv == GFMRV_OK, rv);
+
+
     rv = GFMRV_OK;
 __ret:
     gfmParser_free(&pParser);
@@ -107,7 +121,7 @@ __ret:
 
 
 gfmRV playstate_update() {
-    int x, w, h;
+    int x;
     gfmRV rv;
 
     pGlobal->didAct = 0;
@@ -128,10 +142,8 @@ gfmRV playstate_update() {
         pGlobal->curLensDir = LENS_MIN + 1;
     }
 
-    rv = gfmTilemap_getDimension(&w, &h, pGlobal->pMap);
-    ASSERT(rv == GFMRV_OK, rv);
-    rv = gfmQuadtree_initRoot(pGlobal->pQt, 0/*x*/, 0/*y*/, w, h
-            , QT_MAX_DEPTH, QT_MAX_NODES);
+    rv = gfmQuadtree_initRoot(pGlobal->pQt, 0/*x*/, 0/*y*/, pGlobal->worldWidth
+            , pGlobal->worldHeight, QT_MAX_DEPTH, QT_MAX_NODES);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmQuadtree_populateTilemap(pGlobal->pQt, pGlobal->pMap);
     ASSERT(rv == GFMRV_OK, rv);
@@ -163,7 +175,7 @@ gfmRV playstate_update() {
     /* Parallax */
     rv = gfmSprite_getHorizontalPosition(&x, pGlobal->pPlayer);
     ASSERT(rv == GFMRV_OK, rv);
-    x = -(x / (V_WIDTH / 8));
+    x = -(x / (V_WIDTH / 4));
     if (x > 0) x = 0;
     rv = gfmTilemap_setPosition(pGlobal->pParallax, x, 0/*y*/);
     ASSERT(rv == GFMRV_OK, rv);

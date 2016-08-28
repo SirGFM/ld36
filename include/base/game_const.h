@@ -122,5 +122,10 @@
 /* Number of light particles required to lit the torch */
 #define TORCH_POWER     10
 
+#define DEADZONE_X       48
+#define DEADZONE_Y       0
+#define DEADZONE_W       64
+#define DEADZONE_H       120
+
 #endif /* __GAME_CONST_H__ */
 

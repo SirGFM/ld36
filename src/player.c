@@ -59,6 +59,10 @@ static gfmRV _player_internalUpdate() {
     if (x <= 0) {
         gfmSprite_setHorizontalPosition(pGlobal->pPlayer, 0);
     }
+    else if (x + PLAYER_WIDTH >= pGlobal->worldWidth) {
+        gfmSprite_setHorizontalPosition(pGlobal->pPlayer
+                , pGlobal->worldWidth - PLAYER_WIDTH);
+    }
 
     rv = gfmQuadtree_collideSprite(pGlobal->pQt, pGlobal->pPlayer);
     ASSERT(rv == GFMRV_QUADTREE_DONE || rv == GFMRV_QUADTREE_OVERLAPED, rv);
@@ -156,6 +160,7 @@ __ret:
 
 void player_postUpdate() {
     double vx, vy;
+    int x, y;
 
     gfmSprite_getVelocity(&vx, &vy, pGlobal->pPlayer);
 
@@ -176,6 +181,9 @@ void player_postUpdate() {
     else if (vx != 0.0) {
         gfmSprite_playAnimation(pGlobal->pPlayer, PL_WALK);
     }
+
+    gfmSprite_getCenter(&x, &y, pGlobal->pPlayer);
+    gfmCamera_centerAtPoint(pGlobal->pCamera, x, y);
 }
 
 
