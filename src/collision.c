@@ -13,6 +13,7 @@
 #include <GFraMe/gfmSprite.h>
 #include <GFraMe/gfmTypes.h>
 
+#include <ld36/light_source.h>
 #include <ld36/lens.h>
 #include <ld36/player.h>
 #include <ld36/target.h>
@@ -115,6 +116,17 @@ gfmRV collision_run() {
 
         fallthrough = 0;
         switch (orType) {
+            CASE(T_PLAYER, T_SOURCE) {
+                lightSource *pPtr;
+
+                if (isFirstCase) {
+                    pPtr = (lightSource*)pChild2;
+                }
+                else {
+                    pPtr = (lightSource*)pChild1;
+                }
+                lightSource_revive(pPtr, 1);
+            } break;
             CASE(T_PLAYER, T_LIGHT) {
                 /* TODO Implement player/light interaction */
             } break;
@@ -193,13 +205,21 @@ gfmRV collision_run() {
                 }
                 rv = lens_reflect(pLens, pLight);
             } break;
+            IGNORE(T_SOURCE, T_TARGET)
+            IGNORE(T_SOURCE, T_FLOOR)
+            IGNORE(T_SOURCE, T_LIGHT)
+            IGNORE(T_SOURCE, T_LENS)
+            IGNORE(T_SOURCE, T_TORCH_HEAD)
+            IGNORE(T_SOURCE, T_TORCH_BOOT)
+            IGNORE(T_SOURCE, T_TORCH_HAND)
+            IGNORE(T_SOURCE, T_TORCH_HEAD_LIT)
+            IGNORE(T_SOURCE, T_TORCH_BOOT_LIT)
+            IGNORE(T_SOURCE, T_TORCH_HAND_LIT)
             IGNORE(T_LIGHT, T_TARGET)
             IGNORE(T_LENS, T_TARGET)
             IGNORE(T_FLOOR, T_TARGET)
-            IGNORE(T_LIGHT, T_SOURCE)
             IGNORE(T_LENS, T_PLAYER)
             IGNORE(T_LENS, T_FLOOR)
-            IGNORE(T_LENS, T_SOURCE)
             IGNORE(T_LENS, T_TORCH_HEAD)
             IGNORE(T_LENS, T_TORCH_BOOT)
             IGNORE(T_LENS, T_TORCH_HAND)

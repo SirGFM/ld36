@@ -5,3 +5,4 @@ obj torch 488 96 16 32 [ part , boot ]
 obj torch 508 96 16 32 [ part , hand ]
 obj torch 400 101 16 32 [ part , hand ]
 obj target 341 44 8 32
+obj source 136 0 8 8

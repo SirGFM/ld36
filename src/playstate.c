@@ -64,6 +64,13 @@ gfmRV playstate_init() {
             , sizeof(PARALLAX_FILE)-1, _mapKeys, _mapValues, _mapDictLen);
     ASSERT(rv == GFMRV_OK, rv);
 
+    rv = gfmTilemap_getDimension(&pGlobal->worldWidth, &pGlobal->worldHeight
+            , pGlobal->pMap);
+    ASSERT(rv == GFMRV_OK, rv);
+    /* TODO Correctly get this value */
+    pGlobal->worldWidth = 108 * 8;
+
+
     /* Parse stuff */
     rv = gfmParser_getNew(&pParser);
     ASSERT(rv == GFMRV_OK, rv);
@@ -95,18 +102,20 @@ gfmRV playstate_init() {
         else if (IS_TYPE("target")) {
             rv = target_spawn(pParser);
         }
+        else if (IS_TYPE("source")) {
+            int x, y;
+
+            rv = gfmParser_getPos(&x, &y, pParser);
+            ASSERT(rv == GFMRV_OK, rv);
+            rv = lightSourceList_init(0, 0, pGlobal->worldWidth
+                    , pGlobal->worldHeight, x, y);
+        }
         else {
             rv = GFMRV_FUNCTION_NOT_IMPLEMENTED;
         }
         ASSERT(rv == GFMRV_OK, rv);
 #undef IS_TYPE
     }
-
-    rv = gfmTilemap_getDimension(&pGlobal->worldWidth, &pGlobal->worldHeight
-            , pGlobal->pMap);
-    ASSERT(rv == GFMRV_OK, rv);
-    /* TODO Correctly get this value */
-    pGlobal->worldWidth = 108 * 8;
 
     rv = gfm_getCamera(&pGlobal->pCamera, pGame->pCtx);
     ASSERT(rv == GFMRV_OK, rv);
@@ -167,6 +176,8 @@ gfmRV playstate_update() {
         ASSERT(rv == GFMRV_OK, rv);
     }
 #endif
+
+    lightSourceList_update();
 
     rv = torches_update();
     ASSERT(rv == GFMRV_OK, rv);

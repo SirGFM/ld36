@@ -180,11 +180,15 @@ void lightSourceList_update() {
     i = 0;
     while (i < gfmGenArr_getUsed(pGlobal->pLightSourceList)) {
         lightSource *pPtr;
+        gfmRV rv;
 
         pPtr = gfmGenArr_getObject(pGlobal->pLightSourceList, i);
 
         _lightSource_update(pPtr);
-        /* TODO Add to quadtree */
+        rv = gfmQuadtree_collideObject(pGlobal->pQt, pPtr->pArea);
+        if (rv == GFMRV_QUADTREE_OVERLAPED) {
+            collision_run();
+        }
 
         i++;
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="120" height="15" tilewidth="8" tileheight="8" backgroundcolor="#5b6ee1" nextobjectid="12">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="120" height="15" tilewidth="8" tileheight="8" backgroundcolor="#5b6ee1" nextobjectid="13">
  <tileset firstgid="1" name="atlas-8x8" tilewidth="8" tileheight="8" tilecount="1024" columns="32">
   <image source="../../gfx/atlas.bmp" trans="ff00ff" width="256" height="256"/>
   <terraintypes>
@@ -108,5 +108,6 @@
    </properties>
   </object>
   <object id="11" name="target" type="target" gid="1152" x="341" y="44" width="8" height="32"/>
+  <object id="12" name="light_1" type="source" gid="1297" x="136" y="0" width="8" height="8"/>
  </objectgroup>
 </map>
