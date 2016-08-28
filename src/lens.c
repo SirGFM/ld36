@@ -127,7 +127,7 @@ static int lens_checkCollision(gfmSprite *pLens, gfmSprite *pLight) {
 
     gfmSprite_getFrame(&type, pLens);
     switch (type) {
-        case LENS_DOWNWARD: {
+        case LENS_DOWN: {
             if (light_x > lens_x + LENS_RADIUS
                     || light_x < lens_x - LENS_RADIUS) {
                 return 0;
@@ -137,8 +137,20 @@ static int lens_checkCollision(gfmSprite *pLens, gfmSprite *pLight) {
                 return 0;
             }
         } break;
-        case LENS_45:
+        case LENS_LEFT:
+        case LENS_RIGHT: {
+            if (light_y > lens_y + LENS_RADIUS
+                    || light_y < lens_y - LENS_RADIUS) {
+                return 0;
+            }
+            if (lens_x > light_x + LIGHT_RADIUS
+                    || lens_x < light_x - LIGHT_RADIUS) {
+                return 0;
+            }
+        } break;
+        case LENS_150:
         case LENS_135:
+        case LENS_45:
         case LENS_60: {
 #define WRONG_DIST (LIGHT_RADIUS + LENS_RADIUS / 1.75)
 #define SQR_DIST (WRONG_DIST * WRONG_DIST)
@@ -193,10 +205,20 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
 
 #define EXTRA_DISTANCE 1
     switch (type) {
-        case LENS_DOWNWARD: {
+        case LENS_DOWN: {
             y += LIGHT_RADIUS + EXTRA_DISTANCE;
             dstX = x;
             dstY = y + 1;
+        } break;
+        case LENS_LEFT: {
+            x -= LIGHT_RADIUS + EXTRA_DISTANCE;
+            dstX = x - 1;
+            dstY = y;
+        } break;
+        case LENS_RIGHT: {
+            x += LIGHT_RADIUS + EXTRA_DISTANCE;
+            dstX = x + 1;
+            dstY = y;
         } break;
         case LENS_45: {
             if (isLeft) {
@@ -238,6 +260,20 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
                 y -= LIGHT_RADIUS + EXTRA_DISTANCE;
                 dstX = x - 3;
                 dstY = y - 4;
+            }
+        } break;
+        case LENS_150: {
+            if (isLeft) {
+                x += LIGHT_RADIUS + EXTRA_DISTANCE;
+                y -= LIGHT_RADIUS + EXTRA_DISTANCE;
+                dstX = x + 3;
+                dstY = y - 4;
+            }
+            else {
+                x -= LIGHT_RADIUS + EXTRA_DISTANCE;
+                y += LIGHT_RADIUS + EXTRA_DISTANCE;
+                dstX = x - 3;
+                dstY = y + 4;
             }
         } break;
         default: {

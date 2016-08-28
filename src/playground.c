@@ -54,7 +54,29 @@ gfmRV playground_update() {
         ASSERT(rv == GFMRV_OK, rv);
         rv = gfmInput_getPointerPosition(&x, &y, pInput);
         ASSERT(rv == GFMRV_OK, rv);
-        rv = lens_spawn(x, y, LENS_45);
+#define IS_PRESSED(button) (pButton->button.state & gfmInput_pressed)
+
+        if (IS_PRESSED(left) && IS_PRESSED(down)) {
+            rv = lens_spawn(x, y, LENS_135);
+        }
+        else if (IS_PRESSED(right) && IS_PRESSED(down)) {
+            rv = lens_spawn(x, y, LENS_45);
+        }
+        else if (IS_PRESSED(left) && IS_PRESSED(up)) {
+            rv = lens_spawn(x, y, LENS_150);
+        }
+        else if (IS_PRESSED(right) && IS_PRESSED(up)) {
+            rv = lens_spawn(x, y, LENS_60);
+        }
+        else if (IS_PRESSED(left)) {
+            rv = lens_spawn(x, y, LENS_LEFT);
+        }
+        else if (IS_PRESSED(right)) {
+            rv = lens_spawn(x, y, LENS_RIGHT);
+        }
+        else /* if (IS_PRESSED(down)) */ {
+            rv = lens_spawn(x, y, LENS_DOWN);
+        }
         ASSERT(rv == GFMRV_OK, rv);
     }
 

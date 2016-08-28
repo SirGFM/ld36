@@ -12,10 +12,14 @@
 #include <GFraMe/gfmSprite.h>
 
 enum enLensFrame {
-    LENS_DOWNWARD = 8,
+    LENS_LEFT = 8,
+    LENS_150,
     LENS_135,
+    LENS_DOWN,
     LENS_45,
-    LENS_60
+    LENS_60,
+    LENS_RIGHT,
+    LENS_MAX
 };
 typedef enum enLensFrame lensFrame;
 
