@@ -11,6 +11,7 @@
 #include <ld36/light.h>
 #include <ld36/player.h>
 #include <ld36/playstate.h>
+#include <ld36/target.h>
 #include <ld36/torch.h>
 #include <ld36/type.h>
 #include <ld36/ui.h>
@@ -90,6 +91,7 @@ gfmRV playstate_init() {
             pGlobal->torchCount++;
         }
         else if (IS_TYPE("target")) {
+            rv = target_spawn(pParser);
         }
         else {
             rv = GFMRV_FUNCTION_NOT_IMPLEMENTED;
@@ -168,6 +170,8 @@ gfmRV playstate_update() {
     ASSERT(rv == GFMRV_OK, rv);
     rv = lenses_update();
     ASSERT(rv == GFMRV_OK, rv);
+    rv = targets_update();
+    ASSERT(rv == GFMRV_OK, rv);
 
     rv = player_preUpdate();
     ASSERT(rv == GFMRV_OK, rv);
@@ -199,6 +203,8 @@ gfmRV playstate_draw() {
     rv = ui_draw();
     ASSERT(rv == GFMRV_OK, rv);
 
+    rv = targets_draw();
+    ASSERT(rv == GFMRV_OK, rv);
     rv = torches_draw();
     ASSERT(rv == GFMRV_OK, rv);
     rv = player_draw();

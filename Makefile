@@ -15,6 +15,7 @@
           $(OBJDIR)/player.o \
           $(OBJDIR)/playground.o \
           $(OBJDIR)/playstate.o \
+          $(OBJDIR)/target.o \
           $(OBJDIR)/torch.o \
           $(OBJDIR)/ui.o
 #=======================================================================

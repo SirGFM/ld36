@@ -33,6 +33,7 @@ enum enType {
     T_FLOOR = gfmType_reserved_5, /* purple */
     T_TORCH  = gfmType_reserved_6, /* yellow */
     T_PLAYER = gfmType_reserved_7, /* light red */
+    T_TARGET = gfmType_reserved_10, /* ???? */
     T_SOURCE = gfmType_reserved_11,  /* white */
 
 

@@ -15,6 +15,7 @@
 
 #include <ld36/lens.h>
 #include <ld36/player.h>
+#include <ld36/target.h>
 #include <ld36/torch.h>
 #include <ld36/type.h>
 
@@ -117,6 +118,20 @@ gfmRV collision_run() {
             CASE(T_PLAYER, T_LIGHT) {
                 /* TODO Implement player/light interaction */
             } break;
+            CASE(T_PLAYER, T_TARGET) {
+                gfmSprite *pTarget;
+                int type;
+
+                if (isFirstCase) {
+                    rv = gfmObject_getChild((void**)&pTarget, &type, pObj2);
+                    ASSERT(rv == GFMRV_OK, rv);
+                }
+                else {
+                    rv = gfmObject_getChild((void**)&pTarget, &type, pObj1);
+                    ASSERT(rv == GFMRV_OK, rv);
+                }
+                target_onCollision(pTarget);
+            } break;
             CASE(T_TORCH_HEAD, T_LIGHT)
             CASE(T_TORCH_BOOT, T_LIGHT)
             CASE(T_TORCH_HAND, T_LIGHT) {
@@ -178,6 +193,9 @@ gfmRV collision_run() {
                 }
                 rv = lens_reflect(pLens, pLight);
             } break;
+            IGNORE(T_LIGHT, T_TARGET)
+            IGNORE(T_LENS, T_TARGET)
+            IGNORE(T_FLOOR, T_TARGET)
             IGNORE(T_LIGHT, T_SOURCE)
             IGNORE(T_LENS, T_PLAYER)
             IGNORE(T_LENS, T_FLOOR)

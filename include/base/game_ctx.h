@@ -126,6 +126,8 @@ struct stGameCtx {
 struct stGfxCtx {
     /** 8x8 spriteset of the main texture */
     gfmSpriteset *pSset8x8;
+    /** 8x32 spriteset of the main texture */
+    gfmSpriteset *pSset8x32;
     /** 16x16 spriteset of the main texture */
     gfmSpriteset *pSset16x16;
     /** 16x32 spriteset of the main texture */
@@ -216,6 +218,8 @@ struct stGlobalCtx {
     /** The quadtree for collision */
     gfmQuadtreeRoot *pQt;
 
+    /** Group of lenses */
+    gfmGroup *pTargets;
     /** Group of lenses */
     gfmGroup *pTorches;
     /** Light particles */
