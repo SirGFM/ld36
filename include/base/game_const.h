@@ -105,7 +105,7 @@
 #define PLAYER_HEIGHT   10
 #define PLAYER_OFFX     -6
 #define PLAYER_OFFY     -5
-#define PLAYER_LENS_DISTX   3
+#define PLAYER_LENS_DISTX   5
 #define PLAYER_LENS_DISTY   -8
 
 #define PLAYER_TILES_PER_SEC    8

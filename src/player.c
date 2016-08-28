@@ -76,13 +76,10 @@ __ret:
     return rv;
 }
 
-
-gfmRV player_preUpdate() {
-    double vx, vy;
+static gfmRV _playerAction() {
     gfmRV rv;
-    gfmCollision dir, lastDir;
+    gfmCollision dir;
 
-    /* NOTE: TARGET MUST HAVE PRECEDENCE OVER THE PLAYER!! */
     gfmSprite_getCollision(&dir, pGlobal->pPlayer);
     if ((dir & gfmCollision_down) && DID_JUST_PRESS(action)
             && !pGlobal->didAct) {
@@ -112,7 +109,7 @@ gfmRV player_preUpdate() {
             x -= LENSES_WIDTH / 2;
             y += PLAYER_LENS_DISTY - LENSES_HEIGHT / 2;
 
-            rv = lens_spawn(x, y, LENS_RIGHT);
+            rv = lens_spawn(x, y, pGlobal->curLensDir);
             ASSERT(rv == GFMRV_OK, rv);
 
             pGlobal->playerLensIndex = pGlobal->lastLens;
@@ -120,8 +117,30 @@ gfmRV player_preUpdate() {
         }
     }
 
+    rv = GFMRV_OK;
+__ret:
+    return rv;
+}
+
+
+gfmRV player_preUpdate() {
+    double vx, vy;
+    gfmRV rv;
+    gfmCollision dir, lastDir;
+
+    /* NOTE: TARGET MUST HAVE PRECEDENCE OVER THE PLAYER!! */
+    rv = _playerAction();
+    ASSERT(rv == GFMRV_OK, rv);
+
     /** Skip the update, since the player can't move if holding a mirror */
     if (pGlobal->playerLensIndex >= 0) {
+        gfmSprite *pLens;
+
+        pLens = pGlobal->ppIndexedLens[pGlobal->playerLensIndex];
+        /* Fix the lens' frame/dir */
+        rv = gfmSprite_setFrame(pLens, pGlobal->curLensDir);
+        ASSERT(rv == GFMRV_OK, rv);
+
         gfmSprite_setHorizontalVelocity(pGlobal->pPlayer, 0.0);
         return _player_internalUpdate();
     }
