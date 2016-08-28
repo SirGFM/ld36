@@ -184,6 +184,9 @@ gfmRV playstate_draw() {
     rv = gfmTilemap_draw(pGlobal->pMap, pGame->pCtx);
     ASSERT(rv == GFMRV_OK, rv);
 
+    rv = ui_draw();
+    ASSERT(rv == GFMRV_OK, rv);
+
     rv = torches_draw();
     ASSERT(rv == GFMRV_OK, rv);
     rv = player_draw();
@@ -191,9 +194,6 @@ gfmRV playstate_draw() {
     rv = lenses_draw();
     ASSERT(rv == GFMRV_OK, rv);
     rv = light_draw();
-    ASSERT(rv == GFMRV_OK, rv);
-
-    rv = ui_draw();
     ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;
