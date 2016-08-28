@@ -128,10 +128,6 @@ gfmRV player_preUpdate() {
     gfmRV rv;
     gfmCollision dir, lastDir;
 
-    /* NOTE: TARGET MUST HAVE PRECEDENCE OVER THE PLAYER!! */
-    rv = _playerAction();
-    ASSERT(rv == GFMRV_OK, rv);
-
     /** Skip the update, since the player can't move if holding a mirror */
     if (pGlobal->playerLensIndex >= 0) {
         gfmSprite *pLens;
@@ -180,6 +176,9 @@ __ret:
 void player_postUpdate() {
     double vx, vy;
     int x, y;
+
+    /* NOTE: TARGET MUST HAVE PRECEDENCE OVER THE PLAYER!! */
+    _playerAction();
 
     gfmSprite_getVelocity(&vx, &vy, pGlobal->pPlayer);
 
