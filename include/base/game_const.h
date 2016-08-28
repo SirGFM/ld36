@@ -108,7 +108,11 @@
 #define PLAYER_LENS_DISTX   5
 #define PLAYER_LENS_DISTY   -8
 
-#define PLAYER_TILES_PER_SEC    8
+#if defined(DEBUG)
+#  define PLAYER_TILES_PER_SEC    20
+#else
+#  define PLAYER_TILES_PER_SEC    8
+#endif
 
 #define UP_GRAV          380
 #define DOWN_GRAV        525
