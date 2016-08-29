@@ -118,7 +118,7 @@
 #define DOWN_GRAV        525
 
 #define PLAYER_VX       (((double)TILE_SIZE) * PLAYER_TILES_PER_SEC)
-#define PLAYER_JUMP     -165
+#define PLAYER_JUMP     -175
 
 #define MAX_TARGETS     32
 

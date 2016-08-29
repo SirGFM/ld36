@@ -225,12 +225,14 @@ int main(int argc, char *argv[]) {
     ASSERT(rv == GFMRV_OK, rv);
 
     /* Initialize the FPS counter */
+#if defined(DEBUG)
     if (FPS_SSET) {
         rv = gfm_initFPSCounter(pGame->pCtx, FPS_SSET, FPS_INIT);
         ASSERT(rv == GFMRV_OK, rv);
         rv = gfm_setFPSCounterPos(pGame->pCtx, FPS_X, FPS_Y);
         ASSERT(rv == GFMRV_OK, rv);
     }
+#endif
 
     /* Initialize the base FPS, the update rate and the draw rate */
     rv = gfm_setFPS(pGame->pCtx, pConfig->fps);

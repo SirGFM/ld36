@@ -219,6 +219,7 @@ gfmRV player_draw() {
 void player_collideFloor(gfmObject *pFloor) {
     gfmObject *pObj = 0;
     double vy;
+    int x;
     gfmCollision dir;
 
     gfmSprite_getObject(&pObj, pGlobal->pPlayer);
@@ -228,6 +229,7 @@ void player_collideFloor(gfmObject *pFloor) {
 
     gfmObject_getVerticalVelocity(&vy, pObj);
 
+    gfmSprite_getHorizontalPosition(&x, pGlobal->pPlayer);
     gfmObject_collide(pObj, pFloor);
     gfmObject_getCurrentCollision(&dir, pObj);
     if (dir & gfmCollision_down) {
@@ -239,6 +241,13 @@ void player_collideFloor(gfmObject *pFloor) {
         gfmObject_setVerticalVelocity(pObj, 0.0);
         gfmSprite_getVerticalPosition(&y, pGlobal->pPlayer);
         gfmSprite_setVerticalPosition(pGlobal->pPlayer, y+1);
+    }
+
+    if (dir & gfmCollision_left) {
+        gfmSprite_setHorizontalPosition(pGlobal->pPlayer, x + 1);
+    }
+    else if (dir & gfmCollision_right) {
+        gfmSprite_setHorizontalPosition(pGlobal->pPlayer, x - 0);
     }
 }
 
