@@ -1,9 +1,9 @@
 obj player 16 97 16 16
-obj torch 532 96 32 32 [ part , head ]
+obj torch 628 88 32 32 [ part , head ]
 obj torch 224 69 16 32 [ part , boot ]
-obj torch 488 96 16 32 [ part , boot ]
-obj torch 508 96 16 32 [ part , hand ]
-obj torch 400 101 16 32 [ part , hand ]
-obj target 453 52 8 32
+obj torch 584 88 16 32 [ part , boot ]
+obj torch 604 88 16 32 [ part , hand ]
+obj torch 504 101 16 32 [ part , hand ]
+obj target 456 52 8 32
 obj source 136 0 8 8
 obj source 344 0 8 8
