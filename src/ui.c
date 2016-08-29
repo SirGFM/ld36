@@ -89,6 +89,22 @@ static gfmRV _draw_count() {
     DRAW_CHAR(40, 16, ':');
     DRAW_CHAR(48, 16, pGlobal->playerMaxLens + '0');
 
+#undef BASE_X
+#undef BASE_Y
+#define BASE_X 124
+#define BASE_Y (240 / 2)
+
+    if (pGlobal->torchCount <= 0) {
+        DRAW_CHAR( 0, 0, 'G');
+        DRAW_CHAR( 8, 0, 'A');
+        DRAW_CHAR(16, 0, 'M');
+        DRAW_CHAR(24, 0, 'E');
+        DRAW_CHAR(40, 0, 'O');
+        DRAW_CHAR(48, 0, 'V');
+        DRAW_CHAR(56, 0, 'E');
+        DRAW_CHAR(64, 0, 'R');
+    }
+
     rv = GFMRV_OK;
 __ret:
     return rv;
