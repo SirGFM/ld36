@@ -56,36 +56,12 @@ gfmRV playstate_init() {
     rv = gfmTilemap_loadf(pGlobal->pMap, pGame->pCtx, MAP_FILE
             , sizeof(MAP_FILE)-1, _mapKeys, _mapValues, _mapDictLen);
     ASSERT(rv == GFMRV_OK, rv);
-    rv = gfmTilemap_setPosition(pGlobal->pMap, 0/*x*/, V_HEIGHT/2/*y*/);
-    ASSERT(rv == GFMRV_OK, rv);
-    do {
-        gfmObject *pObj;
-        int len, i;
-
-        rv = gfmTilemap_getAreasLength(&len, pGlobal->pMap);
-        ASSERT(rv == GFMRV_OK, rv);
-        i = 0;
-        while (i < len) {
-            int y;
-
-            rv = gfmTilemap_getArea(&pObj, pGlobal->pMap, i);
-            ASSERT(rv == GFMRV_OK, rv);
-
-            rv = gfmObject_getVerticalPosition(&y, pObj);
-            ASSERT(rv == GFMRV_OK, rv);
-            rv = gfmObject_setVerticalPosition(pObj, y + V_HEIGHT/2);
-            ASSERT(rv == GFMRV_OK, rv);
-            i++;
-        }
-    } while (0);
 
     rv = gfmTilemap_init(pGlobal->pParallax, pGfx->pSset8x8, MAP_WIDTH
             , MAP_HEIGHT, -1/*defTilemap*/);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmTilemap_loadf(pGlobal->pParallax, pGame->pCtx, PARALLAX_FILE
             , sizeof(PARALLAX_FILE)-1, _mapKeys, _mapValues, _mapDictLen);
-    ASSERT(rv == GFMRV_OK, rv);
-    rv = gfmTilemap_setPosition(pGlobal->pParallax, 0/*x*/, V_HEIGHT/2/*y*/);
     ASSERT(rv == GFMRV_OK, rv);
 
     rv = gfmTilemap_getDimension(&pGlobal->worldWidth, &pGlobal->worldHeight
@@ -221,7 +197,7 @@ gfmRV playstate_update() {
     ASSERT(rv == GFMRV_OK, rv);
     x = -(x / (V_WIDTH / 4));
     if (x > 0) x = 0;
-    rv = gfmTilemap_setPosition(pGlobal->pParallax, x, V_HEIGHT/2/*y*/);
+    rv = gfmTilemap_setPosition(pGlobal->pParallax, x, 0);
     ASSERT(rv == GFMRV_OK, rv);
 
     player_postUpdate();
