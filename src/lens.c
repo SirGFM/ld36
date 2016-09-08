@@ -121,61 +121,28 @@ gfmRV lenses_draw() {
 
 static int lens_checkCollision(gfmSprite *pLens, gfmSprite *pLight) {
     int lens_x, lens_y;
-    int light_x, light_y;
-    int x, y, type;
+    int type;
 
-    gfmSprite_getCenter(&light_x, &light_y, pLight);
     gfmSprite_getCenter(&lens_x, &lens_y, pLens);
-
-    x = light_x - lens_x;
-    y = light_y - lens_y;
-#define SQR_DIST ((LIGHT_RADIUS + LENS_RADIUS) * (LIGHT_RADIUS + LENS_RADIUS))
-    if (x * x + y * y > SQR_DIST) {
-        return 0;
-    }
-#undef SQR_DIST
 
     gfmSprite_getFrame(&type, pLens);
     switch (type) {
-        case LENS_DOWN: {
-            if (light_x > lens_x + LENS_RADIUS
-                    || light_x < lens_x - LENS_RADIUS) {
-                return 0;
-            }
-            if (lens_y > light_y + LIGHT_RADIUS
-                    || lens_y < light_y - LIGHT_RADIUS) {
-                return 0;
-            }
-        } break;
+        case LENS_DOWN:
+            return gfmSprite_overlapLine(pLight, lens_x - 12, lens_y, lens_x + 12, lens_y) == GFMRV_TRUE;
         case LENS_LEFT:
-        case LENS_RIGHT: {
-            if (light_y > lens_y + LENS_RADIUS
-                    || light_y < lens_y - LENS_RADIUS) {
-                return 0;
-            }
-            if (lens_x > light_x + LIGHT_RADIUS
-                    || lens_x < light_x - LIGHT_RADIUS) {
-                return 0;
-            }
-        } break;
+        case LENS_RIGHT:
+            return gfmSprite_overlapLine(pLight, lens_x, lens_y - 12, lens_x, lens_y + 12) == GFMRV_TRUE;
         case LENS_150:
+            return gfmSprite_overlapLine(pLight, lens_x - 6, lens_y - 11, lens_x + 6, lens_y + 11) == GFMRV_TRUE;
         case LENS_135:
+            return gfmSprite_overlapLine(pLight, lens_x - 9, lens_y - 9, lens_x + 9, lens_y + 9) == GFMRV_TRUE;
         case LENS_45:
-        case LENS_60: {
-#define WRONG_DIST (LIGHT_RADIUS + LENS_RADIUS / 1.75)
-#define SQR_DIST (WRONG_DIST * WRONG_DIST)
-            if (x * x + y * y > SQR_DIST) {
-                return 0;
-            }
-#undef SQR_DIST
-#undef WRONG_DIST
-        } break;
-        default: {
+            return gfmSprite_overlapLine(pLight, lens_x - 9, lens_y + 9, lens_x + 9, lens_y - 9) == GFMRV_TRUE;
+        case LENS_60:
+            return gfmSprite_overlapLine(pLight, lens_x - 6, lens_y + 11, lens_x + 6, lens_y - 11) == GFMRV_TRUE;
+        default:
             return 0;
-        }
     }
-
-    return 1;
 }
 
 /**
@@ -213,7 +180,7 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
     rv = gfmSprite_getFrame(&type, pLens);
     ASSERT(rv == GFMRV_OK, rv);
 
-#define EXTRA_DISTANCE 2
+#define EXTRA_DISTANCE -1
     switch (type) {
         case LENS_DOWN: {
             y += LIGHT_RADIUS + EXTRA_DISTANCE;
