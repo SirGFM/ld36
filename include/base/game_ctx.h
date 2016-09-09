@@ -11,6 +11,7 @@
 
 #include <ld36/lens.h>
 #include <ld36/light_source.h>
+#include <ld36/player.h>
 
 #include <GFraMe/gframe.h>
 #include <GFraMe/gfmCamera.h>
@@ -229,16 +230,11 @@ struct stGlobalCtx {
     /** How many particles there in the pLight */
     int lightLen;
     gfmGenArr_var(lightSource, pLightSourceList);
-    lightSource *pPlayerSource;
 
     gfmTilemap *pMap;
     gfmTilemap *pParallax;
 
-    gfmSprite *pPlayer;
-    int playerAnim;
-    int playerLensIndex;
-    int playerCurLens;
-    int playerMaxLens;
+    player_t player;
     /** Whether an action (through the 'action' button) was taken this turn */
     int didAct;
 

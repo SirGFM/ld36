@@ -109,7 +109,7 @@ void target_onCollision(gfmSprite *pTarget) {
     index = type >> T_BITS;
     type &= T_MASK;
 
-    if (index == 0x7FFF && pGlobal->playerCurLens > 0) {
+    if (index == 0x7FFF && pGlobal->player.playerCurLens > 0) {
         int x, y;
         gfmSprite_getCenter(&x, &y, pTarget);
 
@@ -119,7 +119,7 @@ void target_onCollision(gfmSprite *pTarget) {
         ASSERT(rv == GFMRV_OK, rv);
 
         index = pGlobal->lastLens;
-        pGlobal->playerCurLens--;
+        pGlobal->player.playerCurLens--;
     }
     else if (index != 0x7FFF) {
         gfmSprite *pLens;
@@ -128,7 +128,7 @@ void target_onCollision(gfmSprite *pTarget) {
         rv = lens_kill(pLens);
         ASSERT(rv == GFMRV_OK, rv);
         index = 0x7FFF;
-        pGlobal->playerCurLens++;
+        pGlobal->player.playerCurLens++;
     }
 
     type |= index << T_BITS;

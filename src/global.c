@@ -70,13 +70,13 @@ gfmRV global_initUserVar() {
     ASSERT(rv == GFMRV_OK, rv);
     rv = light_init();
     ASSERT(rv == GFMRV_OK, rv);
-    rv = lightSource_new(&pGlobal->pPlayerSource);
+    rv = lightSource_new(&pGlobal->player.pPlayerSource);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmTilemap_getNew(&pGlobal->pMap);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmTilemap_getNew(&pGlobal->pParallax);
     ASSERT(rv == GFMRV_OK, rv);
-    rv = gfmSprite_getNew(&pGlobal->pPlayer);
+    rv = gfmSprite_getNew(&pGlobal->player.pSelf);
     ASSERT(rv == GFMRV_OK, rv);
     rv = torches_init();
     ASSERT(rv == GFMRV_OK, rv);
@@ -100,12 +100,12 @@ void global_freeUserVar() {
 
     targets_clean();
     torches_clean();
-    gfmSprite_free(&pGlobal->pPlayer);
+    gfmSprite_free(&pGlobal->player.pSelf);
     gfmTilemap_free(&pGlobal->pMap);
     gfmTilemap_free(&pGlobal->pParallax);
     lenses_clean();
     light_clean();
     lightSourceList_clean();
-    lightSource_free(&pGlobal->pPlayerSource);
+    lightSource_free(&pGlobal->player.pPlayerSource);
 }
 

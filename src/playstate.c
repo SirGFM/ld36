@@ -42,9 +42,9 @@ gfmRV playstate_init() {
     rv = targets_reset();
     ASSERT(rv == GFMRV_OK, rv);
     pGlobal->torchCount = 0;
-    pGlobal->playerLensIndex = -1;
-    pGlobal->playerMaxLens = INITIAL_TARGETS;
-    pGlobal->playerCurLens = INITIAL_TARGETS;
+    pGlobal->player.playerLensIndex = -1;
+    pGlobal->player.playerMaxLens = INITIAL_TARGETS;
+    pGlobal->player.playerCurLens = INITIAL_TARGETS;
     memset(pGlobal->ppIndexedLens, 0x0, sizeof(gfmSprite*) * LENSES_LIST_LEN);
 
     pGlobal->curLensDir = LENS_DOWN;
@@ -193,7 +193,7 @@ gfmRV playstate_update() {
     ASSERT(rv == GFMRV_OK, rv);
 
     /* Parallax */
-    rv = gfmSprite_getHorizontalPosition(&x, pGlobal->pPlayer);
+    rv = gfmSprite_getHorizontalPosition(&x, pGlobal->player.pSelf);
     ASSERT(rv == GFMRV_OK, rv);
     x = -(x / (V_WIDTH / 4));
     if (x > 0) x = 0;

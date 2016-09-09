@@ -119,8 +119,8 @@ __ret:
  * @param  [ in]count How many particles should be spawned
  */
 void lightSourcePlayer_init(int x, int y, int count) {
-    _lightSource_init(pGlobal->pPlayerSource, 0/*area-x*/, 0/*area-y*/, 8/*w*/
-            , 8/*h*/, x, y, count);
+    _lightSource_init(pGlobal->player.pPlayerSource, 0/*area-x*/, 0/*area-y*/
+            , 8/*w*/, 8/*h*/, x, y, count);
 }
 
 /**
@@ -194,6 +194,6 @@ void lightSourceList_update() {
         i++;
     }
 
-    _lightSource_update(pGlobal->pPlayerSource);
+    _lightSource_update(pGlobal->player.pPlayerSource);
 }
 
