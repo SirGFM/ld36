@@ -55,8 +55,13 @@ gfmRV light_init() {
     ASSERT(rv == GFMRV_OK, rv);
 
     /* TODO Set this according to the current quality */
+#if 1
     rv = gfmGroup_setCollisionQuality(pGlobal->pLight
             , gfmCollisionQuality_collideEverything);
+#else
+    rv = gfmGroup_setCollisionQuality(pGlobal->pLight
+            , gfmCollisionQuality_allEverySecond);
+#endif
     ASSERT(rv == GFMRV_OK, rv);
 
     rv = gfmGroup_preCache(pGlobal->pLight, pGlobal->lightLen

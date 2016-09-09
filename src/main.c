@@ -119,6 +119,7 @@ gfmRV main_loop() {
             if ((pGame->flags & DBG_RENDERQT) && pGlobal->pQt) {
                 rv = gfmQuadtree_drawBounds(pGlobal->pQt, pGame->pCtx, 0);
                 ASSERT(rv == GFMRV_OK, rv);
+                gfm_drawRenderInfo(pGame->pCtx, pGfx->pSset8x8, 0, 24, 0);
             }
 #endif
 
