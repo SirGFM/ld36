@@ -4,6 +4,7 @@
 #=======================================================================
   OBJS = \
           $(OBJDIR)/assets.o \
+          $(OBJDIR)/camera.o \
           $(OBJDIR)/collision.o \
           $(OBJDIR)/config.o \
           $(OBJDIR)/global.o \

@@ -9,6 +9,7 @@
 #include <base/game_const.h>
 #include <base/state.h>
 
+#include <ld36/camera.h>
 #include <ld36/lens.h>
 #include <ld36/light_source.h>
 #include <ld36/player.h>
@@ -235,6 +236,7 @@ struct stGlobalCtx {
     gfmTilemap *pParallax;
 
     player_t player;
+    camera_t camera;
     /** Whether an action (through the 'action' button) was taken this turn */
     int didAct;
 
@@ -247,7 +249,6 @@ struct stGlobalCtx {
     int worldHeight;
 
     lensFrame curLensDir;
-    gfmCamera *pCamera;
 
     double endX;
 

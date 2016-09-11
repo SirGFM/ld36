@@ -179,7 +179,6 @@ __ret:
 
 void player_postUpdate() {
     double vx, vy;
-    int x, y;
 
     /* NOTE: TARGET MUST HAVE PRECEDENCE OVER THE PLAYER!! */
     _playerAction();
@@ -203,9 +202,6 @@ void player_postUpdate() {
     else if (vx != 0.0) {
         gfmSprite_playAnimation(pGlobal->player.pSelf, PL_WALK);
     }
-
-    gfmSprite_getCenter(&x, &y, pGlobal->player.pSelf);
-    gfmCamera_centerAtPoint(pGlobal->pCamera, x, y);
 }
 
 

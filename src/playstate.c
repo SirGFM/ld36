@@ -118,15 +118,8 @@ gfmRV playstate_init() {
 #undef IS_TYPE
     }
 
-    rv = gfm_getCamera(&pGlobal->pCamera, pGame->pCtx);
+    rv = camera_reset(pGlobal->worldWidth, pGlobal->worldHeight);
     ASSERT(rv == GFMRV_OK, rv);
-    rv = gfmCamera_setWorldDimensions(pGlobal->pCamera, pGlobal->worldWidth
-            , pGlobal->worldHeight);
-    ASSERT(rv == GFMRV_OK, rv);
-    rv = gfmCamera_setDeadzone(pGlobal->pCamera, DEADZONE_X, DEADZONE_Y
-            , DEADZONE_W, DEADZONE_H);
-    ASSERT(rv == GFMRV_OK, rv);
-
 
     rv = GFMRV_OK;
 __ret:
@@ -201,6 +194,7 @@ gfmRV playstate_update() {
     ASSERT(rv == GFMRV_OK, rv);
 
     player_postUpdate();
+    camera_update();
 
     if (pGlobal->torchCount <= 0) {
         pGlobal->endX += 180.0 * pGame->elapsed / 1000.0;
