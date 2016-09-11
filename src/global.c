@@ -70,7 +70,7 @@ gfmRV global_initUserVar() {
     ASSERT(rv == GFMRV_OK, rv);
     rv = light_init();
     ASSERT(rv == GFMRV_OK, rv);
-    rv = lightSource_new(&pGlobal->player.pPlayerSource);
+    rv = lightSource_new(&pGlobal->player.pSource);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmTilemap_getNew(&pGlobal->pMap);
     ASSERT(rv == GFMRV_OK, rv);
@@ -106,6 +106,6 @@ void global_freeUserVar() {
     lenses_clean();
     light_clean();
     lightSourceList_clean();
-    lightSource_free(&pGlobal->player.pPlayerSource);
+    lightSource_free(&pGlobal->player.pSource);
 }
 

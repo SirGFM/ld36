@@ -42,9 +42,9 @@ gfmRV playstate_init() {
     rv = targets_reset();
     ASSERT(rv == GFMRV_OK, rv);
     pGlobal->torchCount = 0;
-    pGlobal->player.playerLensIndex = -1;
-    pGlobal->player.playerMaxLens = INITIAL_TARGETS;
-    pGlobal->player.playerCurLens = INITIAL_TARGETS;
+    pGlobal->player.lensIndex = -1;
+    pGlobal->player.maxLens = INITIAL_TARGETS;
+    pGlobal->player.curLens = INITIAL_TARGETS;
     memset(pGlobal->ppIndexedLens, 0x0, sizeof(gfmSprite*) * LENSES_LIST_LEN);
 
     pGlobal->curLensDir = LENS_DOWN;

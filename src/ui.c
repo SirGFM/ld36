@@ -81,13 +81,13 @@ static gfmRV _draw_count() {
     DRAW_CHAR(24, 8, 'N');
     DRAW_CHAR(32, 8, 'S');
     DRAW_CHAR(40, 8, ':');
-    DRAW_CHAR(48, 8, pGlobal->player.playerCurLens + '0');
+    DRAW_CHAR(48, 8, pGlobal->player.curLens + '0');
 
     DRAW_CHAR(16, 16, 'M');
     DRAW_CHAR(24, 16, 'A');
     DRAW_CHAR(32, 16, 'X');
     DRAW_CHAR(40, 16, ':');
-    DRAW_CHAR(48, 16, pGlobal->player.playerMaxLens + '0');
+    DRAW_CHAR(48, 16, pGlobal->player.maxLens + '0');
 
 #undef BASE_X
 #undef BASE_Y
@@ -114,7 +114,7 @@ __ret:
 gfmRV ui_draw() {
     gfmRV rv;
 
-    if (pGlobal->player.playerMaxLens > 0) {
+    if (pGlobal->player.maxLens > 0) {
         rv = _draw_lenses();
         ASSERT(rv == GFMRV_OK, rv);
     }

@@ -85,16 +85,16 @@ static gfmRV _playerAction() {
             && !pGlobal->didAct) {
         pGlobal->didAct = 1;
         /* If the player was carrying a lens, drop it */
-        if (pGlobal->player.playerLensIndex != -1) {
+        if (pGlobal->player.lensIndex != -1) {
             gfmSprite *pLens;
 
-            pLens = pGlobal->ppIndexedLens[pGlobal->player.playerLensIndex];
+            pLens = pGlobal->ppIndexedLens[pGlobal->player.lensIndex];
             rv = lens_kill(pLens);
             ASSERT(rv == GFMRV_OK, rv);
-            pGlobal->player.playerLensIndex = -1;
-            pGlobal->player.playerCurLens++;
+            pGlobal->player.lensIndex = -1;
+            pGlobal->player.curLens++;
         }
-        else if (pGlobal->player.playerCurLens > 0) {
+        else if (pGlobal->player.curLens > 0) {
             int isFlipped;
             int x, y;
 
@@ -112,8 +112,8 @@ static gfmRV _playerAction() {
             rv = lens_spawn(x, y, pGlobal->curLensDir);
             ASSERT(rv == GFMRV_OK, rv);
 
-            pGlobal->player.playerLensIndex = pGlobal->lastLens;
-            pGlobal->player.playerCurLens--;
+            pGlobal->player.lensIndex = pGlobal->lastLens;
+            pGlobal->player.curLens--;
         }
     }
 
@@ -129,10 +129,10 @@ gfmRV player_preUpdate() {
     gfmCollision dir, lastDir;
 
     /** Skip the update, since the player can't move if holding a mirror */
-    if (pGlobal->player.playerLensIndex >= 0) {
+    if (pGlobal->player.lensIndex >= 0) {
         gfmSprite *pLens;
 
-        pLens = pGlobal->ppIndexedLens[pGlobal->player.playerLensIndex];
+        pLens = pGlobal->ppIndexedLens[pGlobal->player.lensIndex];
         /* Fix the lens' frame/dir */
         rv = gfmSprite_setFrame(pLens, pGlobal->curLensDir);
         ASSERT(rv == GFMRV_OK, rv);
@@ -187,7 +187,7 @@ void player_postUpdate() {
 
     if (0) {
     }
-    else if (pGlobal->player.playerLensIndex != -1) {
+    else if (pGlobal->player.lensIndex != -1) {
         gfmSprite_playAnimation(pGlobal->player.pSelf, PL_HOLD);
     }
     else if (vx == 0.0 && vy == 0.0) {

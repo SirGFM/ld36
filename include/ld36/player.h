@@ -10,18 +10,16 @@
 
 struct stPlayer {
     /** Light source that the player may spawn anywhere */
-    lightSource *pPlayerSource;
+    lightSource *pSource;
     /** Player's sprite */
     gfmSprite *pSelf;
-    /** Player's current animation (avoids repeating) */
-    int playerAnim;
     /** Index, on pGlobal->ppIndexedLens, of the lens which the player is
      * holding (if any) */
-    int playerLensIndex;
+    int lensIndex;
     /** How many lenses the player still has (i.e., max - number on targets) */
-    int playerCurLens;
+    int curLens;
     /** How many lenses the player has */
-    int playerMaxLens;
+    int maxLens;
 };
 typedef struct stPlayer player_t;
 
