@@ -178,11 +178,17 @@ struct stButtonCtx {
     button spawn;
     button left;
     button right;
+    button up;
+    button down;
     button jump;
     button cycleLeft;
     button cycleRight;
     button action;
     button power;
+    button cameraLeft;
+    button cameraRight;
+    button cameraUp;
+    button cameraDown;
     /* TODO Add buttons */
 };
 

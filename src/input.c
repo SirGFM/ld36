@@ -153,6 +153,12 @@ gfmRV input_init() {
     ADD_KEY(cycleRight);
     ADD_KEY(action);
     ADD_KEY(power);
+    ADD_KEY(cameraLeft);
+    ADD_KEY(cameraRight);
+    ADD_KEY(cameraUp);
+    ADD_KEY(cameraDown);
+    ADD_KEY(up);
+    ADD_KEY(down);
     /* TODO Add other keys */
 
 #undef ADD_KEY
@@ -173,6 +179,8 @@ gfmRV input_init() {
     BIND_KEY(gif, gfmKey_f9);
 #endif
     BIND_KEY(spawn, gfmPointer_button);
+    BIND_GAMEPAD_BT(spawn, gfmController_r2, 0);
+    BIND_GAMEPAD_BT(spawn, gfmController_l2, 0);
 
 
     BIND_KEY(left, gfmKey_a);
@@ -193,12 +201,10 @@ gfmRV input_init() {
     BIND_KEY(cycleLeft, gfmKey_q);
     BIND_KEY(cycleLeft, gfmKey_x);
     BIND_GAMEPAD_BT(cycleLeft, gfmController_l1, 0);
-    BIND_GAMEPAD_BT(cycleLeft, gfmController_l2, 0);
 
     BIND_KEY(cycleRight, gfmKey_e);
     BIND_KEY(cycleRight, gfmKey_b);
     BIND_GAMEPAD_BT(cycleRight, gfmController_r1, 0);
-    BIND_GAMEPAD_BT(cycleRight, gfmController_r2, 0);
 
     BIND_KEY(action, gfmKey_lctrl);
     BIND_KEY(action, gfmKey_c);
@@ -207,6 +213,13 @@ gfmRV input_init() {
     BIND_KEY(power, gfmKey_lshift);
     BIND_KEY(power, gfmKey_v);
     BIND_GAMEPAD_BT(power, gfmController_y, 0);
+
+    BIND_GAMEPAD_BT(up, gfmController_laxis_up, 0);
+    BIND_GAMEPAD_BT(down, gfmController_laxis_down, 0);
+    BIND_GAMEPAD_BT(cameraLeft, gfmController_raxis_left, 0);
+    BIND_GAMEPAD_BT(cameraRight, gfmController_raxis_right, 0);
+    BIND_GAMEPAD_BT(cameraUp, gfmController_raxis_up, 0);
+    BIND_GAMEPAD_BT(cameraDown, gfmController_raxis_down, 0);
 
     /* TODO Bind other keys */
 

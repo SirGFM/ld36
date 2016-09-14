@@ -244,6 +244,7 @@ int main(int argc, char *argv[]) {
     /* TODO Set the initial state */
     pGame->nextState = ST_PLAYSTATE;
 #if defined(DEBUG)
+    pGame->nextState = ST_PLAYGROUND;
     /* Set debug mode to running instead of stepping */
     pGame->flags |= GAME_RUN;
 #endif
