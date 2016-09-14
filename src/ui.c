@@ -6,55 +6,30 @@
 #include <GFraMe/gfmError.h>
 #include <GFraMe/gframe.h>
 
-#define CENTER_X ((V_WIDTH - 32) / 2)
-#define CENTER_Y (16)
+#define CENTER_X 0
+#define CENTER_Y 0
 
 /* Positions for lenses, roughly in a circle */
-static const int _x[] = {
-    CENTER_X + 0,
-    CENTER_X + 36,
-    CENTER_X + 54,
-    CENTER_X + 66,
-    CENTER_X + -66,
-    CENTER_X + -54,
-    CENTER_X + -36};
-static const int _y[] = {
-    CENTER_Y + 0,
-    CENTER_Y + -2,
-    CENTER_Y + -16,
-    CENTER_Y + -22,
-    CENTER_Y + -22,
-    CENTER_Y + -16,
-    CENTER_Y + -2};
+#define FIX_FRAME(n) (n - LENS_LEFT)
+static const int _frame[] = {
+      [FIX_FRAME(LENS_LEFT)]  = 42
+    , [FIX_FRAME(LENS_135)]   = 43
+    , [FIX_FRAME(LENS_DOWN)]  = 44
+    , [FIX_FRAME(LENS_45)]    = 45
+    , [FIX_FRAME(LENS_RIGHT)] = 58
+};
 
 static gfmRV _draw_lenses() {
     gfmRV rv;
-    int j, i;
 
     /* Draw lens' frame */
-    rv = gfm_drawTile(pGame->pCtx, pGfx->pSset32x32, _x[0], _y[0], 15/*tile*/
+    rv = gfm_drawTile(pGame->pCtx, pGfx->pSset32x32, -3, -3, 15/*tile*/
             , 0/*isFlipped*/);
     ASSERT(rv == GFMRV_OK, rv);
 
-    /* Draw lenses in order */
-    j = 0;
-    i = pGlobal->curLensDir;
-    while (i < LENS_MAX) {
-        rv = gfm_drawTile(pGame->pCtx, pGfx->pSset32x32, _x[j], _y[j], i/*tile*/
-                , 0/*isFlipped*/);
-        ASSERT(rv == GFMRV_OK, rv);
-        j++;
-        i++;
-    }
-    i = LENS_MIN + 1;
-    while (i < pGlobal->curLensDir) {
-        rv = gfm_drawTile(pGame->pCtx, pGfx->pSset32x32, _x[j], _y[j], i/*tile*/
-                , 0/*isFlipped*/);
-        ASSERT(rv == GFMRV_OK, rv);
-        j++;
-        i++;
-    }
-
+    rv = gfm_drawTile(pGame->pCtx, pGfx->pSset16x16, 5, 5
+            , _frame[FIX_FRAME(pGlobal->curLensDir)] , 0/*isFlipped*/);
+    ASSERT(rv == GFMRV_OK, rv);
 
     rv = GFMRV_OK;
 __ret:
