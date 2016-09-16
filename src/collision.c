@@ -191,7 +191,13 @@ gfmRV collision_run() {
                 int type;
                 gfmSprite *pLens, *pLight;
 
-                if (isFirstCase) {
+                if ((isFirstCase && (type1 & T_KILLED_LIGHT) == T_KILLED_LIGHT)
+                        || (type2 & T_KILLED_LIGHT) == T_KILLED_LIGHT) {
+                    /* Skip collision, since this light already collided this
+                     * frame */
+                    break;
+                }
+                else if (isFirstCase) {
                     rv = gfmObject_getChild((void**)&pLens, &type, pObj1);
                     ASSERT(rv == GFMRV_OK, rv);
                     rv = gfmObject_getChild((void**)&pLight, &type, pObj2);

@@ -105,6 +105,8 @@ gfmRV light_spawn(int srcX, int srcY, int dstX, int dstY) {
     vx = LIGHT_VELOCITY * vx * norm;
     vy = LIGHT_VELOCITY * vy * norm;
 
+    rv = gfmSprite_setType(pSpr, T_LIGHT);
+    ASSERT(rv == GFMRV_OK, rv);
     rv = gfmSprite_setPosition(pSpr, srcX, srcY);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmSprite_setVelocity(pSpr, vx, vy);

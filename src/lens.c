@@ -159,6 +159,8 @@ gfmRV lens_reflect(gfmSprite *pLens, gfmSprite *pLight) {
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmGroup_removeNode(pNode);
     ASSERT(rv == GFMRV_OK, rv);
+    rv = gfmSprite_setType(pLight, T_KILLED_LIGHT);
+    ASSERT(rv == GFMRV_OK, rv);
 
     /* Check the direction the ligth is moving into the lens */
     rv = gfmSprite_getCenter(&dstX, &dstY, pLight);

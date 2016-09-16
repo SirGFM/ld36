@@ -42,7 +42,9 @@ enum enType {
     T_TORCH_BOOT     = (3 << T_ENT_NBITS) | T_TORCH,
     T_TORCH_BOOT_LIT = (4 << T_ENT_NBITS) | T_TORCH,
     T_TORCH_HAND     = (5 << T_ENT_NBITS) | T_TORCH,
-    T_TORCH_HAND_LIT = (6 << T_ENT_NBITS) | T_TORCH
+    T_TORCH_HAND_LIT = (6 << T_ENT_NBITS) | T_TORCH,
+
+    T_KILLED_LIGHT = (1 << 31) | T_LIGHT,
 };
 typedef enum enType type;
 
