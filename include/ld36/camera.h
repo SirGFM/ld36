@@ -14,9 +14,13 @@
 struct stCamera {
     /** The internal camera */
     gfmCamera *pCamera;
-    /** Camera's center */
+    /** World dimension */
+    int h;
+    /** World dimension */
+    int w;
+    /** Offset from the player's position */
     int x;
-    /** Camera's center */
+    /** Offset from the player's position */
     int y;
     /** If non-negative, controls tweening from the current position to the
      * character's center */

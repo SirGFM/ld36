@@ -157,6 +157,7 @@ gfmRV input_init() {
     ADD_KEY(cameraRight);
     ADD_KEY(cameraUp);
     ADD_KEY(cameraDown);
+    ADD_KEY(cameraReset);
     ADD_KEY(up);
     ADD_KEY(down);
     /* TODO Add other keys */
@@ -220,6 +221,7 @@ gfmRV input_init() {
     BIND_GAMEPAD_BT(cameraRight, gfmController_raxis_right, 0);
     BIND_GAMEPAD_BT(cameraUp, gfmController_raxis_up, 0);
     BIND_GAMEPAD_BT(cameraDown, gfmController_raxis_down, 0);
+    BIND_GAMEPAD_BT(cameraReset, gfmController_r3, 0);
 
     /* TODO Bind other keys */
 

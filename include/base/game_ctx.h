@@ -189,6 +189,7 @@ struct stButtonCtx {
     button cameraRight;
     button cameraUp;
     button cameraDown;
+    button cameraReset;
     /* TODO Add buttons */
 };
 
