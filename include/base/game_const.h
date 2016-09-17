@@ -77,9 +77,9 @@
  * radius*/
 #define MAX_LIGHT_LEN   4096
 #define LIGHT_RADIUS    6
-#define LIGHT_TTL       3000
-#define LIGHT_SCREEN_TRAVERSE_TIME  1.125
-#define LIGHT_DISTANCE_IN_RADIUS    2
+#define LIGHT_TTL       2300
+#define LIGHT_SCREEN_TRAVERSE_TIME  1.5
+#define LIGHT_DISTANCE_IN_RADIUS    1
 #define LIGHT_OFFX      -2
 #define LIGHT_OFFY      -2
 

@@ -52,15 +52,6 @@ gfmRV input_updateButtons() {
         /* TODO Save the new state of the game's window */
     }
 #if defined(DEBUG)
-    /* Switch quadtree visibility */
-    if ((pButton->qt.state & gfmInput_justReleased) == gfmInput_justReleased) {
-        if (pGame->flags & DBG_RENDERQT) {
-            pGame->flags &= ~DBG_RENDERQT;
-        }
-        else {
-            pGame->flags |= DBG_RENDERQT;
-        }
-    }
     /* Update the 'manual stepper' */
     rv = input_updateDebugButtons();
     ASSERT(rv == GFMRV_OK, rv);
@@ -91,6 +82,7 @@ gfmRV input_updateDebugButtons() {
     /** Return value */
     gfmRV rv;
 
+
     /* Retrieve the keys state */
     rv = gfm_getKeyState(&(pButton->dbgPause.state),
             &(pButton->dbgPause.numPressed), pGame->pCtx,
@@ -100,7 +92,20 @@ gfmRV input_updateDebugButtons() {
             &(pButton->dbgStep.numPressed), pGame->pCtx,
             pButton->dbgStep.handle);
     ASSERT(rv == GFMRV_OK, rv);
+    rv = gfm_getKeyState(&(pButton->qt.state),
+            &(pButton->qt.numPressed), pGame->pCtx,
+            pButton->qt.handle);
+    ASSERT(rv == GFMRV_OK, rv);
 
+    /* Switch quadtree visibility */
+    if ((pButton->qt.state & gfmInput_justReleased) == gfmInput_justReleased) {
+        if (pGame->flags & DBG_RENDERQT) {
+            pGame->flags &= ~DBG_RENDERQT;
+        }
+        else {
+            pGame->flags |= DBG_RENDERQT;
+        }
+    }
     /* Check if the game was (un)paused */
     if ((pButton->dbgPause.state & gfmInput_justReleased) == gfmInput_justReleased) {
         if (pGame->flags & GAME_RUN) {
