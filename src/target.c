@@ -17,7 +17,7 @@ gfmRV targets_init() {
     rv = gfmGroup_getNew(&pGlobal->pTargets);
     ASSERT(rv == GFMRV_OK, rv);
 
-    rv = gfmGroup_setDefType(pGlobal->pTargets, 0x7FFF0000 | T_TARGET);
+    rv = gfmGroup_setDefType(pGlobal->pTargets, TARGET_INDEX_MASK | T_TARGET);
     ASSERT(rv == GFMRV_OK, rv);
     rv = gfmGroup_setDeathOnLeave(pGlobal->pTargets, 0/*dontDie*/);
     ASSERT(rv == GFMRV_OK, rv);
@@ -99,17 +99,17 @@ void target_onCollision(gfmSprite *pTarget) {
     gfmRV rv;
     gfmGroupNode *pNode;
 
-    if (!DID_JUST_PRESS(action)) {
+    if (!DID_JUST_PRESS(action) || pGlobal->didAct) {
         return;
     }
 
     rv = gfmSprite_getChild((void**)&pNode, &type, pTarget);
     ASSERT(rv == GFMRV_OK, rv);
 
-    index = type >> T_BITS;
+    index = (type & TARGET_INDEX_MASK) >> T_BITS;
     type &= T_MASK;
 
-    if (index == 0x7FFF && pGlobal->player.curLens > 0) {
+    if (index == TARGET_NO_LENS && pGlobal->player.curLens > 0) {
         int x, y;
         gfmSprite_getCenter(&x, &y, pTarget);
 
@@ -121,17 +121,17 @@ void target_onCollision(gfmSprite *pTarget) {
         index = pGlobal->lastLens;
         pGlobal->player.curLens--;
     }
-    else if (index != 0x7FFF) {
+    else if (index != TARGET_NO_LENS) {
         gfmSprite *pLens;
 
         pLens = pGlobal->ppIndexedLens[index];
         rv = lens_kill(pLens);
         ASSERT(rv == GFMRV_OK, rv);
-        index = 0x7FFF;
+        index = TARGET_NO_LENS;
         pGlobal->player.curLens++;
     }
 
-    type |= index << T_BITS;
+    type = (index << T_BITS) | type;
     gfmSprite_setType(pTarget, type);
 
     pGlobal->didAct = 1;
