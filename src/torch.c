@@ -113,6 +113,7 @@ gfmRV torch_spawn(gfmParser *pParser) {
         pSset = pGfx->pSset32x32;
         offX = -12;
         offY = -6;
+        x += 12;
         y -= 18 + TORCH_HEIGHT;
     }
     else if (strcmp(val, "hand") == 0) {
@@ -121,6 +122,7 @@ gfmRV torch_spawn(gfmParser *pParser) {
         pSset = pGfx->pSset16x32;
         offX = -4;
         offY = -10;
+        x += 4;
         y -= 14 + TORCH_HEIGHT;
     }
     else if (strcmp(val, "boot") == 0) {
@@ -129,6 +131,7 @@ gfmRV torch_spawn(gfmParser *pParser) {
         pSset = pGfx->pSset16x32;
         offX = -4;
         offY = -10;
+        x += 4;
         y -= 14 + TORCH_HEIGHT;
     }
 

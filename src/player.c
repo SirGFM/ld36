@@ -29,6 +29,7 @@ gfmRV player_init(gfmParser *pParser) {
     rv = gfmParser_getPos(&x, &y, pParser);
     ASSERT(rv == GFMRV_OK, rv);
 
+    x += 6;
     y -= PLAYER_HEIGHT + 1;
     rv = gfmSprite_init(pGlobal->player.pSelf, x, y, PLAYER_WIDTH, PLAYER_HEIGHT
             , pGfx->pSset16x16, PLAYER_OFFX, PLAYER_OFFY, 0, T_PLAYER);
