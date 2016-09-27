@@ -3,7 +3,7 @@ obj torch 632 53 32 32 [ part , head ]
 obj torch 224 69 16 32 [ part , boot ]
 obj torch 512 101 16 32 [ part , boot ]
 obj torch 132 69 16 32 [ part , hand ]
-obj torch 312 68 16 32 [ part , hand ]
+obj torch 312 69 16 32 [ part , hand ]
 obj target 456 52 8 32
 obj source 136 0 8 8
 obj source 344 0 8 8
