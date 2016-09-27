@@ -60,6 +60,8 @@ gfmRV main_loop() {
             pInput = 0;
             rv = gfm_getInput(&pInput, pGame->pCtx);
             ASSERT(rv == GFMRV_OK, rv);
+            rv = gfmInput_updateVKey(pInput, pButton->qt.handle);
+            ASSERT(rv == GFMRV_OK, rv);
             rv = gfmInput_updateVKey(pInput, pButton->dbgStep.handle);
             ASSERT(rv == GFMRV_OK, rv);
             rv = gfmInput_updateVKey(pInput, pButton->dbgPause.handle);
